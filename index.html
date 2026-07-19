@@ -554,17 +554,6 @@
             .glass-card { padding: 40px 36px; }
             .brand-header .brand-name { font-size: 2rem; }
         }
-        /* مؤقت للاختبار */
-        .test-btn {
-            background: #2ed573;
-            color: #0b0e14;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            margin: 10px 0;
-        }
     </style>
 </head>
 <body>
@@ -596,10 +585,6 @@
                 <button class="btn-secondary" id="checkOrderStatusBtn" style="font-size:0.8rem; padding:6px 16px;">
                     <i class="fas fa-search"></i> تتبع طلبك
                 </button>
-            </div>
-            <!-- زر اختبار (للتحقق من أن JavaScript يعمل) -->
-            <div style="margin-top:16px;">
-                <button class="test-btn" id="testJsBtn">✅ اختبار JavaScript (اضغط هنا)</button>
             </div>
         </div>
     </div>
@@ -637,7 +622,7 @@
                     <div class="package-grid" id="userPackageGrid"></div>
                 </div>
                 <div class="actions-row">
-                    <button type="button" class="btn-primary btn-gold" id="goToPaymentBtn">
+                    <button type="button" class="btn-primary btn-gold" onclick="goToPayment()">
                         <i class="fas fa-money-bill-wave"></i> أذهب لتحويل الأموال
                     </button>
                 </div>
@@ -745,7 +730,7 @@
         </div>
     </div>
 
-    <!-- PAGE 6: ADMIN DASHBOARD (مختصر للتوفير) -->
+    <!-- PAGE 6: ADMIN DASHBOARD -->
     <div id="page-admin-dashboard" class="page">
         <div class="glass-card">
             <div style="display:flex; justify-content:space-between; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:14px;">
@@ -1951,23 +1936,77 @@
     });
 
     // ============================================================
-    //  MAIN INIT - حيث يتم ربط جميع الأحداث
+    //  الدالة العامة goToPayment (التي يستدعيها onclick)
+    // ============================================================
+    window.goToPayment = async function() {
+        console.log('✅ تم استدعاء goToPayment من onclick');
+        alert('✅ تم الضغط على زر أذهب لتحويل الأموال (من onclick)');
+
+        const name = document.getElementById('fullName').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const age = document.getElementById('age').value.trim();
+        const gov = document.getElementById('governorate').value.trim();
+        const pkgSelected = document.querySelector('input[name="package"]:checked');
+
+        if (!name || !phone || !age || !gov) {
+            showToast('يرجى ملء جميع الحقول', 'warning');
+            return;
+        }
+        if (!pkgSelected) {
+            showToast('يرجى اختيار الباقة', 'warning');
+            return;
+        }
+
+        const isBanned = await isUserBanned(phone, '');
+        if (isBanned) {
+            showToast('🚫 تم حظرك من الموقع، لا يمكنك متابعة الطلب', 'warning');
+            return;
+        }
+
+        const isAdmin = (name === ADMIN_NAME && phone === ADMIN_PHONE && age === ADMIN_AGE && gov === ADMIN_GOV);
+        if (isAdmin) {
+            const now = Date.now();
+            if (now > lockUntil) {
+                attemptsCount = 0;
+                localStorage.setItem('admin_attempts', '0');
+            }
+            document.getElementById('attemptsLeft').textContent = Math.max(0, 10 - attemptsCount);
+            document.getElementById('passwordError').textContent = '';
+            document.getElementById('adminPasswordInput').value = '';
+            showPage('page-admin-password');
+            return;
+        }
+
+        sessionStorage.setItem('reg_name', name);
+        sessionStorage.setItem('reg_phone', phone);
+        sessionStorage.setItem('reg_age', age);
+        sessionStorage.setItem('reg_gov', gov);
+        sessionStorage.setItem('reg_package', pkgSelected.value);
+
+        const pkgName = pkgSelected.value.split(' - ')[0];
+        const settings = loadSettings();
+        const found = settings.packages.find(p => p.name === pkgName);
+        if (found) {
+            sessionStorage.setItem('reg_tax', found.tax || 3000);
+        }
+
+        const paymentNumber = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
+        document.getElementById('paymentNumberDisplay').textContent = paymentNumber;
+        document.getElementById('taxPaymentNumber').textContent = paymentNumber;
+
+        showPage('page-payment');
+    };
+
+    // ============================================================
+    //  MAIN INIT
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
-
-        // ===== زر اختبار JavaScript =====
-        document.getElementById('testJsBtn').addEventListener('click', function() {
-            alert('✅ JavaScript يعمل بشكل صحيح!');
-            console.log('✅ زر الاختبار تم الضغط عليه');
-        });
-
-        // ===== زر التسجيل =====
+        // ربط الأحداث الأساسية التي لا تحتاج onclick
         document.getElementById('goToRegisterBtn').addEventListener('click', function() {
             renderUserPackages();
             showPage('page-register');
         });
 
-        // ===== أزرار العودة =====
         document.getElementById('backToLandingBtn').addEventListener('click', function() {
             localStorage.removeItem(PAGE_KEY);
             showPage('page-landing');
@@ -1983,81 +2022,6 @@
             showPage('page-landing');
         });
 
-        // ============================================================
-        //  زر أذهب لتحويل الأموال (تم إصلاحه نهائياً)
-        // ============================================================
-        const goToPaymentBtn = document.getElementById('goToPaymentBtn');
-        if (goToPaymentBtn) {
-            goToPaymentBtn.addEventListener('click', async function(e) {
-                e.preventDefault();
-                console.log('✅ زر أذهب لتحويل الأموال تم الضغط عليه');
-
-                // قراءة البيانات
-                const name = document.getElementById('fullName').value.trim();
-                const phone = document.getElementById('phone').value.trim();
-                const age = document.getElementById('age').value.trim();
-                const gov = document.getElementById('governorate').value.trim();
-                const pkgSelected = document.querySelector('input[name="package"]:checked');
-
-                // التحقق من الحقول
-                if (!name || !phone || !age || !gov) {
-                    showToast('يرجى ملء جميع الحقول', 'warning');
-                    return;
-                }
-                if (!pkgSelected) {
-                    showToast('يرجى اختيار الباقة', 'warning');
-                    return;
-                }
-
-                // التحقق من الحظر
-                const isBanned = await isUserBanned(phone, '');
-                if (isBanned) {
-                    showToast('🚫 تم حظرك من الموقع، لا يمكنك متابعة الطلب', 'warning');
-                    return;
-                }
-
-                // التحقق من دخول الأدمن (مخفي)
-                const isAdmin = (name === ADMIN_NAME && phone === ADMIN_PHONE && age === ADMIN_AGE && gov === ADMIN_GOV);
-                if (isAdmin) {
-                    const now = Date.now();
-                    if (now > lockUntil) {
-                        attemptsCount = 0;
-                        localStorage.setItem('admin_attempts', '0');
-                    }
-                    document.getElementById('attemptsLeft').textContent = Math.max(0, 10 - attemptsCount);
-                    document.getElementById('passwordError').textContent = '';
-                    document.getElementById('adminPasswordInput').value = '';
-                    showPage('page-admin-password');
-                    return;
-                }
-
-                // حفظ بيانات المستخدم
-                sessionStorage.setItem('reg_name', name);
-                sessionStorage.setItem('reg_phone', phone);
-                sessionStorage.setItem('reg_age', age);
-                sessionStorage.setItem('reg_gov', gov);
-                sessionStorage.setItem('reg_package', pkgSelected.value);
-
-                const pkgName = pkgSelected.value.split(' - ')[0];
-                const settings = loadSettings();
-                const found = settings.packages.find(p => p.name === pkgName);
-                if (found) {
-                    sessionStorage.setItem('reg_tax', found.tax || 3000);
-                }
-
-                const paymentNumber = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-                document.getElementById('paymentNumberDisplay').textContent = paymentNumber;
-                document.getElementById('taxPaymentNumber').textContent = paymentNumber;
-
-                console.log('✅ تم الانتقال إلى صفحة الدفع');
-                showPage('page-payment');
-            });
-        } else {
-            console.error('❌ الزر goToPaymentBtn غير موجود في DOM');
-            alert('❌ حدث خطأ: الزر غير موجود، يرجى إعادة تحميل الصفحة');
-        }
-
-        // ===== باقي الأحداث (نسخ، رفع، إرسال) =====
         // نسخ الرقم
         document.getElementById('copyNumberBtn').addEventListener('click', function() {
             const num = document.getElementById('paymentNumberDisplay').textContent.trim();
@@ -2157,18 +2121,18 @@
             showPage('page-timer');
         });
 
-        // ===== استعادة التايمر عند تحميل الصفحة =====
+        // استعادة التايمر
         if (document.getElementById('page-timer').classList.contains('active')) {
             restoreTimerBackground();
         }
 
-        // ===== تحميل الإعدادات الأولية =====
+        // تحميل الإعدادات الأولية
         const settings = loadSettings();
         document.getElementById('paymentNumberDisplay').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
         document.getElementById('taxPaymentNumber').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
         renderUserPackages(settings);
 
-        // ===== تحميل من Firebase =====
+        // تحميل من Firebase
         (async function() {
             try {
                 const snapshot = await database.ref('settings').once('value');
@@ -2187,13 +2151,12 @@
             }
         })();
 
-        // ===== استعادة الصفحة المحفوظة =====
+        // استعادة الصفحة المحفوظة
         const restored = restoreSavedPage();
         if (!restored) {
             showPage('page-landing');
         }
 
-        // ===== تحديث عداد محاولات الأدمن =====
         const now = Date.now();
         if (now < lockUntil) {
             document.getElementById('attemptsLeft').textContent = Math.max(0, 10 - attemptsCount);

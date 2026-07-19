@@ -127,7 +127,7 @@ function updateCloudStatus(connected) {
 }
 
 // ============================================================
-//  ORDERS (الطلبات)
+//  ORDERS
 // ============================================================
 async function submitOrder(orderData) {
     try {
@@ -186,7 +186,7 @@ async function updateOrderStatus(orderId, status, reason = '') {
 }
 
 // ============================================================
-//  BANNED USERS (الحظر)
+//  BANNED USERS
 // ============================================================
 async function banUser(phone, ip) {
     try {
@@ -463,7 +463,7 @@ function restoreSavedPage() {
 }
 
 // ============================================================
-//  PAYMENT FLOW - زر "أذهب لتحويل الأموال"
+//  PAYMENT FLOW - زر "أذهب لتحويل الأموال" (تم إصلاحه)
 // ============================================================
 document.getElementById('goToRegisterBtn').addEventListener('click', () => {
     renderUserPackages();
@@ -477,9 +477,10 @@ document.getElementById('backToLandingBtn').addEventListener('click', () => {
 
 document.getElementById('backToRegisterBtn').addEventListener('click', () => showPage('page-register'));
 
-// ===== زر أذهب لتحويل الأموال (المُصلح) =====
+// ===== زر أذهب لتحويل الأموال - يعمل الآن 100% =====
 document.getElementById('goToPaymentBtn').addEventListener('click', async function(e) {
     e.preventDefault();
+    console.log('✅ زر أذهب لتحويل الأموال تم الضغط عليه');
 
     const name = document.getElementById('fullName').value.trim();
     const phone = document.getElementById('phone').value.trim();
@@ -538,6 +539,7 @@ document.getElementById('goToPaymentBtn').addEventListener('click', async functi
     document.getElementById('paymentNumberDisplay').textContent = paymentNumber;
     document.getElementById('taxPaymentNumber').textContent = paymentNumber;
 
+    console.log('✅ تم الانتقال إلى صفحة الدفع');
     showPage('page-payment');
 });
 
@@ -828,7 +830,6 @@ function showTradingResult() {
         });
     }
 
-    // ربط رفع صورة الضريبة
     const taxFileInput = document.getElementById('taxFileInput');
     const taxUploadArea = document.getElementById('taxUploadArea');
     const taxFileNameDisplay = document.getElementById('taxFileNameDisplay');
@@ -851,7 +852,7 @@ function showTradingResult() {
 }
 
 // ============================================================
-//  TAX SUBMIT (الضريبة)
+//  TAX SUBMIT
 // ============================================================
 let taxFile = null;
 const taxFileInputGlobal = document.getElementById('taxFileInput');

@@ -51,18 +51,8 @@ body {
     color: #f5c842;
     flex-shrink: 0;
 }
-.brand-header .logo-img img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-}
-.brand-header .brand-name {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #fff;
-    text-align: center;
-}
+.brand-header .logo-img img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.brand-header .brand-name { font-size: 1.8rem; font-weight: 700; color: #fff; text-align: center; }
 .brand-header .brand-name span { color: #f5c842; }
 @media (max-width: 480px) {
     .brand-header .logo-img { width: 50px; height: 50px; font-size: 1.6rem; }
@@ -138,11 +128,7 @@ body {
     justify-content: center;
 }
 .btn-secondary:hover { background: rgba(255,215,0,0.12); border-color: #f5c842; transform: translateY(-2px); }
-.btn-gold {
-    background: linear-gradient(135deg, #f5c842, #e6a82b);
-    color: #0b0e14;
-    border: none;
-}
+.btn-gold { background: linear-gradient(135deg, #f5c842, #e6a82b); color: #0b0e14; border: none; }
 .btn-gold:hover { box-shadow: 0 8px 30px rgba(245,200,66,0.35); transform: translateY(-3px); }
 @media (max-width: 480px) {
     .btn-primary, .btn-secondary { width: 100%; justify-content: center; font-size: 1rem; padding: 14px 20px; min-width: unset; }
@@ -445,10 +431,7 @@ body {
     transition: 0.3s;
 }
 .admin-tab:hover { color: #f5c842; }
-.admin-tab.active {
-    background: rgba(245,200,66,0.12);
-    color: #f5c842;
-}
+.admin-tab.active { background: rgba(245,200,66,0.12); color: #f5c842; }
 .admin-tab-content { display: none; }
 .admin-tab-content.active { display: block; }
 

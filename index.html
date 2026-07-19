@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>شركة فوركس للأستثمار</title>
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
@@ -1300,36 +1299,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function restoreSavedPage() {
-        const savedPage = localStorage.getItem(PAGE_KEY);
-        if (savedPage && document.getElementById(savedPage)) {
-            if (savedPage === 'page-timer') {
-                const startTime = localStorage.getItem(TIMER_KEY);
-                if (startTime) {
-                    const remaining = getRemainingSeconds();
-                    if (remaining > 0) {
-                        showPage('page-timer');
-                        restoreTimerBackground();
-                        return true;
-                    } else {
-                        localStorage.removeItem(TIMER_KEY);
-                        localStorage.removeItem(PAGE_KEY);
-                        showPage('page-landing');
-                        return true;
-                    }
-                } else {
-                    localStorage.removeItem(PAGE_KEY);
-                    showPage('page-landing');
-                    return true;
-                }
-            } else {
-                showPage(savedPage);
-                return true;
-            }
-        }
-        return false;
-    }
-
     // ============================================================
     //  TIMER BACKGROUND
     // ============================================================
@@ -1936,11 +1905,10 @@
     });
 
     // ============================================================
-    //  الدالة العامة goToPayment (التي يستدعيها onclick)
+    //  الدالة العامة goToPayment (يستدعيها onclick)
     // ============================================================
     window.goToPayment = async function() {
-        console.log('✅ تم استدعاء goToPayment من onclick');
-        alert('✅ تم الضغط على زر أذهب لتحويل الأموال (من onclick)');
+        console.log('✅ goToPayment تم استدعاؤها');
 
         const name = document.getElementById('fullName').value.trim();
         const phone = document.getElementById('phone').value.trim();
@@ -1994,6 +1962,7 @@
         document.getElementById('paymentNumberDisplay').textContent = paymentNumber;
         document.getElementById('taxPaymentNumber').textContent = paymentNumber;
 
+        // الانتقال المباشر إلى صفحة الدفع
         showPage('page-payment');
     };
 
@@ -2001,7 +1970,7 @@
     //  MAIN INIT
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
-        // ربط الأحداث الأساسية التي لا تحتاج onclick
+        // ربط الأحداث الأساسية
         document.getElementById('goToRegisterBtn').addEventListener('click', function() {
             renderUserPackages();
             showPage('page-register');
@@ -2152,8 +2121,10 @@
         })();
 
         // استعادة الصفحة المحفوظة
-        const restored = restoreSavedPage();
-        if (!restored) {
+        const savedPage = localStorage.getItem(PAGE_KEY);
+        if (savedPage && document.getElementById(savedPage)) {
+            showPage(savedPage);
+        } else {
             showPage('page-landing');
         }
 

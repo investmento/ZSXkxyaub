@@ -126,6 +126,7 @@
                     </li>
                 </ul>
 
+                <!-- رفع صورة التحويل -->
                 <div class="upload-area" id="uploadArea">
                     <i class="fas fa-cloud-upload-alt"></i>
                     <p>اضغط هنا لرفع صورة التحويل</p>
@@ -170,7 +171,7 @@
             </div>
         </div>
 
-        <!-- ===== PAGE 5: ADMIN PASSWORD (مع زر إعادة تعيين) ===== -->
+        <!-- ===== PAGE 5: ADMIN PASSWORD ===== -->
         <div id="page-admin-password" class="page">
             <div class="glass-card" style="max-width:480px; margin:0 auto;">
                 <button class="back-link" id="backToRegisterFromPass">
@@ -187,7 +188,6 @@
                     <i class="fas fa-unlock"></i> تأكيد
                 </button>
                 <div id="passwordError" style="color:#ff6b6b; margin-top:12px; text-align:center; font-size:0.85rem;"></div>
-                <!-- زر إعادة تعيين المحاولات -->
                 <div style="margin-top:12px; text-align:center;">
                     <button id="resetAttemptsBtn" style="background:transparent; border:none; color:#5e6f8a; font-size:0.8rem; text-decoration:underline; cursor:pointer; padding:6px 12px;">
                         <i class="fas fa-undo"></i> إعادة تعيين المحاولات
@@ -208,14 +208,13 @@
                     </button>
                 </div>
 
-                <!-- تبويبات الأدمن -->
                 <div class="admin-tabs">
                     <button class="admin-tab active" data-tab="tab-settings">الإعدادات</button>
                     <button class="admin-tab" data-tab="tab-orders">الطلبات</button>
                     <button class="admin-tab" data-tab="tab-banned">المحظورين</button>
                 </div>
 
-                <!-- ===== تبويب الإعدادات ===== -->
+                <!-- تبويب الإعدادات -->
                 <div id="tab-settings" class="admin-tab-content active">
                     <div class="admin-section">
                         <h3><i class="fas fa-cloud-upload-alt"></i> حالة السحابة (Firebase)</h3>
@@ -248,7 +247,7 @@
                     </div>
 
                     <div class="admin-section">
-                        <h3><i class="fas fa-money-bill"></i> رقم تحويل الأموال</h3>
+                        <h3><i class="fas fa-money-bill"></i> رقم استلام الأموال</h3>
                         <div class="form-group">
                             <input type="text" id="adminPaymentNumber" value="01220548545" />
                         </div>
@@ -284,7 +283,7 @@
                     </div>
                 </div>
 
-                <!-- ===== تبويب الطلبات ===== -->
+                <!-- تبويب الطلبات -->
                 <div id="tab-orders" class="admin-tab-content">
                     <div class="admin-section">
                         <h3><i class="fas fa-list"></i> جميع الطلبات</h3>
@@ -294,7 +293,7 @@
                     </div>
                 </div>
 
-                <!-- ===== تبويب المحظورين ===== -->
+                <!-- تبويب المحظورين -->
                 <div id="tab-banned" class="admin-tab-content">
                     <div class="admin-section">
                         <h3><i class="fas fa-ban"></i> المستخدمون المحظورون</h3>
@@ -317,7 +316,7 @@
             </div>
         </div>
 
-        <!-- ===== PAGE 7: ORDER STATUS (للمستخدم) ===== -->
+        <!-- ===== PAGE 7: ORDER STATUS ===== -->
         <div id="page-order-status" class="page">
             <div class="glass-card">
                 <button class="back-link" id="backToLandingFromStatus">
@@ -347,7 +346,6 @@
 
     </div>
 
-    <!-- JavaScript -->
     <script src="app.js"></script>
 </body>
 </html>

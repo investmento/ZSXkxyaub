@@ -919,12 +919,12 @@ document.getElementById('submitTaxBtn')?.addEventListener('click', async functio
 });
 
 // ============================================================
-//  ADMIN PASSWORD (الجزء المُصلح)
+//  ADMIN PASSWORD (الجزء المُصلح مع زر إعادة التعيين)
 // ============================================================
 document.getElementById('backToRegisterFromPass').addEventListener('click', () => showPage('page-register'));
 
-// زر إعادة تعيين المحاولات (للتجربة)
-document.getElementById('resetAttemptsBtn')?.addEventListener('click', function() {
+// زر إعادة تعيين المحاولات
+document.getElementById('resetAttemptsBtn').addEventListener('click', function() {
     attemptsCount = 0;
     lockUntil = 0;
     localStorage.setItem('admin_attempts', '0');

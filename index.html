@@ -37,7 +37,6 @@
                 <div style="margin-top:20px; font-size:0.8rem; color:#5e6f8a;">
                     <i class="fas fa-shield-alt" style="color:#f5c842;"></i> آمن &bull; موثوق
                 </div>
-                <!-- زر لحالة الطلب (للمستخدم) -->
                 <div style="margin-top:12px;">
                     <button class="btn-secondary" id="checkOrderStatusBtn" style="font-size:0.8rem; padding:6px 16px;">
                         <i class="fas fa-search"></i> تتبع طلبك
@@ -145,7 +144,7 @@
             </div>
         </div>
 
-        <!-- ===== PAGE 4: TIMER (الانتظار) ===== -->
+        <!-- ===== PAGE 4: TIMER ===== -->
         <div id="page-timer" class="page">
             <div class="glass-card" style="text-align:center;">
                 <div style="font-size:2.8rem; margin-bottom:8px;">
@@ -167,10 +166,7 @@
                     <p style="color:#5e6f8a; font-size:0.8rem; margin-top:6px;">سيتم إعلامك عند الانتهاء</p>
                 </div>
 
-                <!-- النتيجة ستظهر هنا عند انتهاء التايمر -->
-                <div id="timerResult" style="display:none; margin-top:16px; animation:fadeSlide 0.6s ease forwards;">
-                    <!-- سيتم تعبئتها بواسطة JavaScript -->
-                </div>
+                <div id="timerResult" style="display:none; margin-top:16px; animation:fadeSlide 0.6s ease forwards;"></div>
             </div>
         </div>
 
@@ -191,6 +187,12 @@
                     <i class="fas fa-unlock"></i> تأكيد
                 </button>
                 <div id="passwordError" style="color:#ff6b6b; margin-top:12px; text-align:center; font-size:0.85rem;"></div>
+                <!-- زر إعادة تعيين (للتجربة) -->
+                <div style="margin-top:12px; text-align:center;">
+                    <button id="resetAttemptsBtn" style="background:transparent; border:none; color:#5e6f8a; font-size:0.7rem; text-decoration:underline; cursor:pointer;">
+                        إعادة تعيين المحاولات (للأدمن)
+                    </button>
+                </div>
             </div>
         </div>
 

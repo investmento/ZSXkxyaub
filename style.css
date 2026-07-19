@@ -28,7 +28,6 @@ body {
 }
 @media (max-width: 480px) { .glass-card { padding: 24px 16px; border-radius: 28px; } }
 
-/* ===== BRAND HEADER ===== */
 .brand-header {
     display: flex;
     align-items: center;
@@ -59,7 +58,6 @@ body {
     .brand-header .brand-name { font-size: 1.3rem; }
 }
 
-/* ===== TYPOGRAPHY ===== */
 .main-title {
     font-size: 2.8rem;
     font-weight: 800;
@@ -90,7 +88,6 @@ body {
 .sub-desc i { color: #f5c842; }
 @media (max-width: 480px) { .sub-desc { font-size: 0.95rem; padding: 12px 16px; } }
 
-/* ===== BUTTONS ===== */
 .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -134,7 +131,6 @@ body {
     .btn-primary, .btn-secondary { width: 100%; justify-content: center; font-size: 1rem; padding: 14px 20px; min-width: unset; }
 }
 
-/* ===== FORMS ===== */
 .form-group { margin-bottom: 18px; text-align: right; }
 .form-group label { display: block; font-weight: 600; font-size: 0.9rem; color: #d0def0; margin-bottom: 5px; }
 .form-group label i { color: #f5c842; margin-left: 8px; width: 20px; }
@@ -153,7 +149,6 @@ body {
 .form-group input:focus { border-color: #f5c842; box-shadow: 0 0 0 4px rgba(245,200,66,0.12); background: rgba(255,255,255,0.07); }
 .form-group input::placeholder { color: #6b7b96; }
 
-/* ===== PACKAGES ===== */
 .package-grid {
     display: flex;
     flex-direction: column;
@@ -224,7 +219,6 @@ body {
     .package-price { font-size: 0.85rem; }
 }
 
-/* ===== ACTIONS ===== */
 .actions-row {
     display: flex;
     flex-wrap: wrap;
@@ -249,7 +243,6 @@ body {
 }
 .back-link:hover { color: #f5c842; }
 
-/* ===== PAYMENT ===== */
 .payment-number-box {
     background: rgba(255,255,255,0.04);
     border-radius: 24px;
@@ -288,7 +281,6 @@ body {
 }
 .copy-btn:hover { background: rgba(245,200,66,0.15); transform: scale(1.05); }
 
-/* ===== UPLOAD ===== */
 .upload-area {
     background: rgba(255,255,255,0.02);
     border: 2px dashed rgba(255,215,0,0.15);
@@ -304,7 +296,6 @@ body {
 .upload-area .file-name { color: #f5c842; font-weight: 600; margin-top: 4px; font-size: 0.85rem; }
 #fileInput, #taxFileInput { display: none; }
 
-/* ===== TOAST ===== */
 .toast {
     position: fixed;
     bottom: 20px;
@@ -330,7 +321,6 @@ body {
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .toast i { color: #f5c842; font-size: 1.1rem; }
 
-/* ===== TIMER ===== */
 .timer-box { text-align: center; padding: 16px 0; }
 .timer-circle {
     width: 180px;
@@ -367,7 +357,6 @@ body {
     width: 100%;
 }
 
-/* ===== STOCKS ===== */
 .stocks-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -398,7 +387,6 @@ body {
     .stock-card .stock-price { font-size: 1rem; }
 }
 
-/* ===== TAX BOX ===== */
 .tax-box {
     background: rgba(255,215,0,0.05);
     border: 1px solid rgba(255,215,0,0.1);
@@ -410,7 +398,6 @@ body {
 .tax-box h3 { color: #f5c842; font-size: 1.2rem; margin-bottom: 8px; }
 .tax-box p { color: #b0c4e0; line-height: 1.8; font-size: 0.95rem; }
 
-/* ===== ADMIN DASHBOARD ===== */
 .admin-tabs {
     display: flex;
     gap: 8px;
@@ -519,7 +506,6 @@ body {
 @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 .timer-info { color: #b0c4e0; font-size: 0.9rem; margin: 8px 0; text-align: center; }
 
-/* ===== ORDER STATUS ===== */
 .order-item {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.06);

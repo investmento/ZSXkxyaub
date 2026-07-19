@@ -7,491 +7,10 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <style>
-        /* ===== RESET & BASE ===== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { font-size: 16px; }
-        body {
-            font-family: 'Cairo', 'Tajawal', 'Segoe UI', sans-serif;
-            background: #0b0e14;
-            color: #f0f4fa;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            background: radial-gradient(ellipse at 30% 20%, #1a1f2e, #0b0e14 70%);
-        }
-        .app-container { width: 100%; max-width: 820px; margin: 0 auto; }
-        .page { display: none; animation: fadeSlide 0.5s ease forwards; }
-        .page.active { display: block; }
-        @keyframes fadeSlide { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 215, 0, 0.15);
-            border-radius: 40px;
-            padding: 32px 24px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,215,0,0.05) inset;
-            transition: all 0.3s ease;
-        }
-        @media (max-width: 480px) { .glass-card { padding: 24px 16px; border-radius: 28px; } }
-        .brand-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .brand-header .logo-img {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #f5c842;
-            background: #1a1f2e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-            color: #f5c842;
-            flex-shrink: 0;
-        }
-        .brand-header .logo-img img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .brand-header .brand-name {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #fff;
-            text-align: center;
-        }
-        .brand-header .brand-name span { color: #f5c842; }
-        @media (max-width: 480px) {
-            .brand-header .logo-img { width: 50px; height: 50px; font-size: 1.6rem; }
-            .brand-header .brand-name { font-size: 1.3rem; }
-        }
-        .main-title {
-            font-size: 2.8rem;
-            font-weight: 800;
-            line-height: 1.2;
-            background: linear-gradient(135deg, #f9e05d, #f5b342, #f9e05d);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmerGold 4s ease-in-out infinite alternate;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-        @keyframes shimmerGold { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
-        @media (max-width: 480px) { .main-title { font-size: 2rem; } }
-        .sub-desc {
-            font-size: 1.05rem;
-            color: #b7c4d9;
-            line-height: 1.8;
-            text-align: center;
-            max-width: 520px;
-            margin: 0 auto 32px;
-            background: rgba(255,255,255,0.03);
-            padding: 14px 20px;
-            border-radius: 60px;
-            border: 1px solid rgba(255,215,0,0.06);
-        }
-        .sub-desc i { color: #f5c842; }
-        @media (max-width: 480px) { .sub-desc { font-size: 0.95rem; padding: 12px 16px; } }
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: linear-gradient(135deg, #f5c842, #e6a82b);
-            color: #0b0e14;
-            font-size: 1.1rem;
-            font-weight: 700;
-            padding: 16px 36px;
-            border: none;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 30px rgba(245,200,66,0.3);
-            justify-content: center;
-            width: auto;
-            min-width: 180px;
-        }
-        .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 14px 40px rgba(245,200,66,0.5); }
-        .btn-primary:active { transform: scale(0.97); }
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,215,0,0.25);
-            color: #f5c842;
-            font-size: 1rem;
-            font-weight: 600;
-            padding: 14px 28px;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(6px);
-            justify-content: center;
-        }
-        .btn-secondary:hover { background: rgba(255,215,0,0.12); border-color: #f5c842; transform: translateY(-2px); }
-        .btn-gold {
-            background: linear-gradient(135deg, #f5c842, #e6a82b);
-            color: #0b0e14;
-            border: none;
-        }
-        .btn-gold:hover { box-shadow: 0 8px 30px rgba(245,200,66,0.35); transform: translateY(-3px); }
-        @media (max-width: 480px) {
-            .btn-primary, .btn-secondary { width: 100%; justify-content: center; font-size: 1rem; padding: 14px 20px; min-width: unset; }
-        }
-        .form-group { margin-bottom: 18px; text-align: right; }
-        .form-group label { display: block; font-weight: 600; font-size: 0.9rem; color: #d0def0; margin-bottom: 5px; }
-        .form-group label i { color: #f5c842; margin-left: 8px; width: 20px; }
-        .form-group input {
-            width: 100%;
-            padding: 14px 18px;
-            font-size: 1rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 18px;
-            color: #f0f4fa;
-            outline: none;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-        .form-group input:focus { border-color: #f5c842; box-shadow: 0 0 0 4px rgba(245,200,66,0.12); background: rgba(255,255,255,0.07); }
-        .form-group input::placeholder { color: #6b7b96; }
-        .package-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin: 16px 0 20px;
-        }
-        .package-option {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 20px;
-            padding: 14px 16px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-        .package-option:hover { background: rgba(255,215,0,0.05); border-color: rgba(255,215,0,0.2); }
-        .package-option.selected { background: rgba(245,200,66,0.08); border-color: #f5c842; box-shadow: 0 0 0 1px rgba(245,200,66,0.2); }
-        .package-option input[type="radio"] {
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255,255,255,0.15);
-            border-radius: 50%;
-            flex-shrink: 0;
-            position: relative;
-            transition: 0.2s;
-            cursor: pointer;
-        }
-        .package-option input[type="radio"]:checked {
-            border-color: #f5c842;
-            background: #f5c842;
-            box-shadow: 0 0 0 3px rgba(245,200,66,0.25);
-        }
-        .package-option input[type="radio"]:checked::after {
-            content: "✓";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-            color: #0b0e14;
-            font-size: 13px;
-            font-weight: 700;
-        }
-        .package-info {
-            flex: 1;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 6px 10px;
-        }
-        .package-name { font-weight: 700; font-size: 0.95rem; color: #fff; }
-        .package-name i { color: #f5c842; margin-left: 6px; }
-        .package-detail { font-size: 0.8rem; color: #b0c4e0; }
-        .package-price {
-            font-weight: 700;
-            color: #f5c842;
-            font-size: 0.9rem;
-            background: rgba(245,200,66,0.1);
-            padding: 3px 12px;
-            border-radius: 40px;
-            white-space: nowrap;
-        }
-        .package-tax { display: none; }
-        @media (max-width: 480px) {
-            .package-info { flex-direction: column; align-items: flex-start; gap: 4px; }
-            .package-price { font-size: 0.85rem; }
-        }
-        .actions-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 24px;
-        }
-        .actions-row .btn-primary, .actions-row .btn-secondary { flex: 1; min-width: 140px; }
-        @media (max-width: 480px) { .actions-row .btn-primary, .actions-row .btn-secondary { min-width: unset; } }
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #8a9bb8;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-bottom: 16px;
-            background: none;
-            border: none;
-            font-family: inherit;
-        }
-        .back-link:hover { color: #f5c842; }
-        .payment-number-box {
-            background: rgba(255,255,255,0.04);
-            border-radius: 24px;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            border: 1px solid rgba(255,215,0,0.10);
-            margin: 14px 0 18px;
-        }
-        .payment-number {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: #f5c842;
-            direction: ltr;
-            text-align: left;
-            font-family: 'Courier New', monospace;
-            word-break: break-all;
-        }
-        @media (max-width: 480px) { .payment-number { font-size: 1.2rem; } }
-        .copy-btn {
-            background: rgba(255,255,255,0.06);
-            border: none;
-            color: #f5c842;
-            font-size: 1.2rem;
-            padding: 8px 14px;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: 0.25s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .copy-btn:hover { background: rgba(245,200,66,0.15); transform: scale(1.05); }
-        .upload-area {
-            background: rgba(255,255,255,0.02);
-            border: 2px dashed rgba(255,215,0,0.15);
-            border-radius: 24px;
-            padding: 24px 16px;
-            text-align: center;
-            transition: 0.3s;
-            cursor: pointer;
-            margin: 14px 0 18px;
-        }
-        .upload-area:hover { border-color: rgba(245,200,66,0.35); background: rgba(255,215,0,0.03); }
-        .upload-area i { font-size: 2.4rem; color: #f5c842; margin-bottom: 6px; display: block; }
-        .upload-area .file-name { color: #f5c842; font-weight: 600; margin-top: 4px; font-size: 0.85rem; }
-        #fileInput, #taxFileInput { display: none; }
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #1e2538;
-            color: #f0f4fa;
-            padding: 14px 28px;
-            border-radius: 60px;
-            border: 1px solid rgba(255,215,0,0.15);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-            font-weight: 600;
-            opacity: 0;
-            transition: all 0.5s ease;
-            z-index: 999;
-            backdrop-filter: blur(12px);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-            max-width: 90%;
-        }
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        .toast i { color: #f5c842; font-size: 1.1rem; }
-        .timer-box { text-align: center; padding: 16px 0; }
-        .timer-circle {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 6px solid #f5c842;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 16px auto;
-            background: rgba(245,200,66,0.05);
-            box-shadow: 0 0 40px rgba(245,200,66,0.15);
-            position: relative;
-        }
-        .timer-circle .time { font-size: 3rem; font-weight: 800; color: #f5c842; font-family: 'Courier New', monospace; }
-        .timer-circle .label { font-size: 0.85rem; color: #b0c4e0; margin-top: 4px; }
-        @media (max-width: 480px) {
-            .timer-circle { width: 140px; height: 140px; }
-            .timer-circle .time { font-size: 2.4rem; }
-        }
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.06);
-            border-radius: 10px;
-            margin: 16px 0 8px;
-            overflow: hidden;
-        }
-        .progress-bar .fill {
-            height: 100%;
-            background: linear-gradient(90deg, #f5c842, #e6a82b);
-            border-radius: 10px;
-            transition: width 1s linear;
-            width: 100%;
-        }
-        .stocks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 12px;
-            margin: 16px 0;
-        }
-        .stock-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 18px;
-            padding: 14px 10px;
-            text-align: center;
-            transition: 0.3s;
-        }
-        .stock-card .stock-symbol { font-weight: 700; font-size: 1rem; color: #fff; }
-        .stock-card .stock-price { font-size: 1.2rem; font-weight: 700; color: #2ed573; margin: 4px 0; }
-        .stock-card .stock-change { font-size: 0.8rem; color: #2ed573; }
-        .stock-card .stock-change i { margin-left: 4px; }
-        .stock-card.up { border-color: rgba(46,213,115,0.2); }
-        .stock-card.up .stock-change { color: #2ed573; }
-        @media (max-width: 480px) {
-            .stocks-grid { grid-template-columns: repeat(3, 1fr); }
-            .stock-card { padding: 10px 8px; }
-            .stock-card .stock-price { font-size: 1rem; }
-        }
-        .tax-box {
-            background: rgba(255,215,0,0.05);
-            border: 1px solid rgba(255,215,0,0.1);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 16px 0;
-            text-align: center;
-        }
-        .tax-box h3 { color: #f5c842; font-size: 1.2rem; margin-bottom: 8px; }
-        .tax-box p { color: #b0c4e0; line-height: 1.8; font-size: 0.95rem; }
-        .admin-section {
-            margin-top: 28px;
-            border-top: 1px solid rgba(255,215,0,0.08);
-            padding-top: 20px;
-        }
-        .admin-section h3 { font-size: 1.3rem; margin-bottom: 14px; color: #f5c842; }
-        .admin-package-item {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255,255,255,0.03);
-            padding: 12px 16px;
-            border-radius: 18px;
-            margin-bottom: 8px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .admin-package-item .pkg-info { flex: 1; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
-        .admin-package-item .pkg-info span { color: #d0def0; }
-        .admin-package-item .pkg-info strong { color: #f5c842; }
-        .admin-package-item .btn-sm {
-            padding: 5px 14px;
-            font-size: 0.8rem;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-edit { background: rgba(245,200,66,0.15); color: #f5c842; }
-        .btn-edit:hover { background: rgba(245,200,66,0.25); }
-        .btn-del { background: rgba(255,70,70,0.15); color: #ff6b6b; }
-        .btn-del:hover { background: rgba(255,70,70,0.25); }
-        .inline-form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: flex-end;
-            background: rgba(255,255,255,0.02);
-            padding: 16px;
-            border-radius: 20px;
-            margin-top: 10px;
-            border: 1px solid rgba(255,215,0,0.06);
-        }
-        .inline-form .form-group { flex: 1; min-width: 120px; margin-bottom: 0; }
-        .inline-form .form-group input { padding: 10px 14px; font-size: 0.9rem; }
-        @media (max-width: 480px) { .inline-form { flex-direction: column; } .inline-form .form-group { min-width: 100%; } }
-        .status-box {
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-            padding: 14px 18px;
-            margin: 10px 0 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        .status-box .status-icon { font-size: 1.6rem; }
-        .status-box .status-text { font-size: 0.95rem; font-weight: 600; }
-        .status-box .status-details { font-size: 0.8rem; color: #8a9bb8; margin-top: 2px; }
-        .status-online { border-color: rgba(46,213,115,0.3); background: rgba(46,213,115,0.05); }
-        .status-online .status-icon { color: #2ed573; }
-        .status-offline { border-color: rgba(255,70,70,0.3); background: rgba(255,70,70,0.05); }
-        .status-offline .status-icon { color: #ff6b6b; }
-        .footer-credit {
-            margin-top: 36px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(255,215,0,0.08);
-            text-align: center;
-            color: #5e6f8a;
-            font-size: 0.85rem;
-        }
-        .footer-credit i { color: #f5c842; margin: 0 4px; }
-        .confetti { font-size: 2.5rem; display: inline-block; animation: bounce 1s ease infinite; }
-        @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-        .timer-info { color: #b0c4e0; font-size: 0.9rem; margin: 8px 0; text-align: center; }
-        @media (max-width: 480px) {
-            .brand-header .brand-name { font-size: 1.2rem; }
-            .timer-circle .time { font-size: 2rem; }
-            .payment-number { font-size: 1rem; }
-            .admin-package-item .pkg-info { font-size: 0.8rem; }
-            .admin-package-item .btn-sm { font-size: 0.7rem; padding: 4px 10px; }
-        }
-        @media (min-width: 768px) {
-            .glass-card { padding: 40px 36px; }
-            .brand-header .brand-name { font-size: 2rem; }
-        }
-    </style>
+    <!-- الأنماط -->
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -517,6 +36,12 @@
                 </button>
                 <div style="margin-top:20px; font-size:0.8rem; color:#5e6f8a;">
                     <i class="fas fa-shield-alt" style="color:#f5c842;"></i> آمن &bull; موثوق
+                </div>
+                <!-- زر لحالة الطلب (للمستخدم) -->
+                <div style="margin-top:12px;">
+                    <button class="btn-secondary" id="checkOrderStatusBtn" style="font-size:0.8rem; padding:6px 16px;">
+                        <i class="fas fa-search"></i> تتبع طلبك
+                    </button>
                 </div>
             </div>
         </div>
@@ -620,7 +145,7 @@
             </div>
         </div>
 
-        <!-- ===== PAGE 4: TIMER ===== -->
+        <!-- ===== PAGE 4: TIMER (الانتظار) ===== -->
         <div id="page-timer" class="page">
             <div class="glass-card" style="text-align:center;">
                 <div style="font-size:2.8rem; margin-bottom:8px;">
@@ -642,44 +167,9 @@
                     <p style="color:#5e6f8a; font-size:0.8rem; margin-top:6px;">سيتم إعلامك عند الانتهاء</p>
                 </div>
 
+                <!-- النتيجة ستظهر هنا عند انتهاء التايمر -->
                 <div id="timerResult" style="display:none; margin-top:16px; animation:fadeSlide 0.6s ease forwards;">
-                    <div style="font-size:2.2rem; margin-bottom:8px;">
-                        <span class="confetti">🎉</span>
-                        <span style="color:#f5c842;"> تم!</span>
-                        <span class="confetti">🎉</span>
-                    </div>
-
-                    <div class="stocks-grid" id="stocksGrid">
-                        <div class="stock-card up"><div class="stock-symbol">AAPL</div><div class="stock-price">$187.43</div><div class="stock-change"><i class="fas fa-arrow-up"></i> +7.6%</div></div>
-                        <div class="stock-card up"><div class="stock-symbol">GOOGL</div><div class="stock-price">$145.21</div><div class="stock-change"><i class="fas fa-arrow-up"></i> +5.8%</div></div>
-                        <div class="stock-card up"><div class="stock-symbol">AMZN</div><div class="stock-price">$213.56</div><div class="stock-change"><i class="fas fa-arrow-up"></i> +9.2%</div></div>
-                        <div class="stock-card up"><div class="stock-symbol">TSLA</div><div class="stock-price">$405.89</div><div class="stock-change"><i class="fas fa-arrow-up"></i> +12.4%</div></div>
-                        <div class="stock-card up"><div class="stock-symbol">BTC</div><div class="stock-price">$67,432</div><div class="stock-change"><i class="fas fa-arrow-up"></i> +4.7%</div></div>
-                        <div class="stock-card up"><div class="stock-symbol">ETH</div><div class="stock-price">$3,891</div><div class="stock-change"><i class="fas fa-arrow-up"></i> +6.3%</div></div>
-                    </div>
-
-                    <div class="tax-box">
-                        <h3><i class="fas fa-gem" style="color:#f5c842;"></i> ادفع الضريبة</h3>
-                        <p style="font-size:1.1rem; color:#f5c842; font-weight:700; margin:8px 0;">
-                            <span id="taxAmountDisplay">3000</span> جنيه لسحب فلوسك من الموقع
-                        </p>
-                        <p style="color:#b0c4e0; font-size:0.9rem;">قم بتحويل المبلغ على الرقم التالي:</p>
-                        <div class="payment-number-box" style="margin:10px 0 14px; background:rgba(255,255,255,0.06);">
-                            <span class="payment-number" id="taxPaymentNumber">01220548545</span>
-                            <button class="copy-btn" id="taxCopyBtn">
-                                <i class="fas fa-copy"></i> نسخ
-                            </button>
-                        </div>
-                        <div class="upload-area" id="taxUploadArea" style="margin:6px 0 14px; padding:18px;">
-                            <i class="fas fa-receipt"></i>
-                            <p>رفع صورة إيصال التحويل</p>
-                            <div class="file-name" id="taxFileNameDisplay">لم يتم اختيار ملف</div>
-                        </div>
-                        <input type="file" id="taxFileInput" accept="image/*" />
-                        <button class="btn-primary btn-gold" id="submitTaxBtn" style="width:100%; justify-content:center; margin-top:6px;">
-                            <i class="fas fa-paper-plane"></i> إرسال إيصال الضريبة
-                        </button>
-                    </div>
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
                 </div>
             </div>
         </div>
@@ -716,75 +206,133 @@
                     </button>
                 </div>
 
-                <!-- ===== إعدادات Firebase ===== (مخفية عن المستخدم العادي) -->
-                <div class="admin-section">
-                    <h3><i class="fas fa-cloud-upload-alt"></i> حالة السحابة (Firebase)</h3>
-                    <div id="cloudStatusBox" class="status-box status-checking">
-                        <div class="status-icon"><i class="fas fa-spinner fa-pulse"></i></div>
-                        <div>
-                            <div class="status-text" id="cloudStatusText">جاري التحقق...</div>
-                            <div class="status-details" id="cloudStatusDetails">قاعدة البيانات: investment-d8188</div>
+                <!-- تبويبات الأدمن -->
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="tab-settings">الإعدادات</button>
+                    <button class="admin-tab" data-tab="tab-orders">الطلبات</button>
+                    <button class="admin-tab" data-tab="tab-banned">المحظورين</button>
+                </div>
+
+                <!-- ===== تبويب الإعدادات ===== -->
+                <div id="tab-settings" class="admin-tab-content active">
+                    <div class="admin-section">
+                        <h3><i class="fas fa-cloud-upload-alt"></i> حالة السحابة (Firebase)</h3>
+                        <div id="cloudStatusBox" class="status-box status-checking">
+                            <div class="status-icon"><i class="fas fa-spinner fa-pulse"></i></div>
+                            <div>
+                                <div class="status-text" id="cloudStatusText">جاري التحقق...</div>
+                                <div class="status-details" id="cloudStatusDetails">قاعدة البيانات: investment-d8188</div>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px;">
+                            <button class="btn-secondary" id="saveToFirebaseBtn"><i class="fas fa-save"></i> حفظ الإعدادات عالمياً</button>
+                            <button class="btn-secondary" id="loadFromFirebaseBtn"><i class="fas fa-download"></i> تحميل من Firebase</button>
+                        </div>
+                        <div id="cloudTestResult" style="margin-top:10px; font-size:0.9rem; color:#b0c0da;"></div>
+                    </div>
+
+                    <div class="admin-section">
+                        <h3><i class="fas fa-robot"></i> إعدادات البوت</h3>
+                        <div class="form-group">
+                            <label>توكن البوت</label>
+                            <input type="text" id="adminBotToken" value="8678479534:AAHpTfyDDc7yv6H72KVCSkTWwSro9yRuxtI" />
+                        </div>
+                        <div class="form-group">
+                            <label>معرف المستخدم (Chat ID)</label>
+                            <input type="text" id="adminChatId" value="7599842679" />
+                            <p style="color:#5e6f8a; font-size:0.75rem; margin-top:3px;">هذا هو المعرف الذي سيستقبل الرسائل</p>
+                        </div>
+                        <button class="btn-secondary" id="saveBotSettingsBtn"><i class="fas fa-save"></i> حفظ الإعدادات</button>
+                    </div>
+
+                    <div class="admin-section">
+                        <h3><i class="fas fa-money-bill"></i> رقم تحويل الأموال</h3>
+                        <div class="form-group">
+                            <input type="text" id="adminPaymentNumber" value="01220548545" />
+                        </div>
+                        <button class="btn-secondary" id="savePaymentNumberBtn"><i class="fas fa-save"></i> تحديث الرقم</button>
+                    </div>
+
+                    <div class="admin-section">
+                        <h3><i class="fas fa-boxes"></i> إدارة الباقات</h3>
+                        <div id="adminPackageList"></div>
+                        <div style="margin-top:16px;">
+                            <h4 style="color:#b0c0da; font-size:1.05rem;"><i class="fas fa-plus-circle"></i> إضافة باقة جديدة</h4>
+                            <div class="inline-form">
+                                <div class="form-group">
+                                    <input type="text" id="newPkgName" placeholder="اسم الباقة" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="newPkgPrice" placeholder="السعر" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="newPkgReturn" placeholder="العائد" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="newPkgTax" placeholder="الضريبة" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="newPkgDuration" placeholder="المدة" value="45 دقيقة" />
+                                </div>
+                                <button class="btn-primary" id="addPackageBtn" style="flex:0 0 auto; padding:10px 24px;">
+                                    <i class="fas fa-plus"></i> إضافة
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px;">
-                        <button class="btn-secondary" id="saveToFirebaseBtn"><i class="fas fa-save"></i> حفظ الإعدادات عالمياً (Firebase)</button>
-                        <button class="btn-secondary" id="loadFromFirebaseBtn"><i class="fas fa-download"></i> تحميل من Firebase</button>
-                    </div>
-                    <div id="cloudTestResult" style="margin-top:10px; font-size:0.9rem; color:#b0c0da;"></div>
                 </div>
 
-                <div class="admin-section">
-                    <h3><i class="fas fa-robot"></i> إعدادات البوت</h3>
-                    <div class="form-group">
-                        <label>توكن البوت</label>
-                        <input type="text" id="adminBotToken" value="8678479534:AAHpTfyDDc7yv6H72KVCSkTWwSro9yRuxtI" />
+                <!-- ===== تبويب الطلبات ===== -->
+                <div id="tab-orders" class="admin-tab-content">
+                    <div class="admin-section">
+                        <h3><i class="fas fa-list"></i> جميع الطلبات</h3>
+                        <div id="ordersList">
+                            <p style="color:#5e6f8a; text-align:center; padding:20px;">جاري تحميل الطلبات...</p>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>معرف المستخدم (Chat ID)</label>
-                        <input type="text" id="adminChatId" value="7599842679" />
-                        <p style="color:#5e6f8a; font-size:0.75rem; margin-top:3px;">هذا هو المعرف الذي سيستقبل الرسائل</p>
-                    </div>
-                    <button class="btn-secondary" id="saveBotSettingsBtn"><i class="fas fa-save"></i> حفظ الإعدادات (محلياً)</button>
                 </div>
 
-                <div class="admin-section">
-                    <h3><i class="fas fa-money-bill"></i> رقم تحويل الأموال</h3>
-                    <div class="form-group">
-                        <input type="text" id="adminPaymentNumber" value="01220548545" />
-                    </div>
-                    <button class="btn-secondary" id="savePaymentNumberBtn"><i class="fas fa-save"></i> تحديث الرقم</button>
-                </div>
-
-                <div class="admin-section">
-                    <h3><i class="fas fa-boxes"></i> إدارة الباقات</h3>
-                    <div id="adminPackageList"></div>
-                    <div style="margin-top:16px;">
-                        <h4 style="color:#b0c0da; font-size:1.05rem;"><i class="fas fa-plus-circle"></i> إضافة باقة جديدة</h4>
-                        <div class="inline-form">
-                            <div class="form-group">
-                                <input type="text" id="newPkgName" placeholder="اسم الباقة" />
+                <!-- ===== تبويب المحظورين ===== -->
+                <div id="tab-banned" class="admin-tab-content">
+                    <div class="admin-section">
+                        <h3><i class="fas fa-ban"></i> المستخدمون المحظورون</h3>
+                        <div id="bannedList">
+                            <p style="color:#5e6f8a; text-align:center; padding:20px;">جاري تحميل قائمة المحظورين...</p>
+                        </div>
+                        <div style="margin-top:16px;">
+                            <h4 style="color:#b0c0da; font-size:1.05rem;"><i class="fas fa-plus-circle"></i> إلغاء حظر مستخدم</h4>
+                            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+                                <input type="text" id="unbanPhone" placeholder="رقم الهاتف" style="flex:1; padding:10px 16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:18px; color:#f0f4fa;" />
+                                <button class="btn-secondary" id="unbanUserBtn"><i class="fas fa-user-check"></i> إلغاء الحظر</button>
                             </div>
-                            <div class="form-group">
-                                <input type="number" id="newPkgPrice" placeholder="السعر" />
-                            </div>
-                            <div class="form-group">
-                                <input type="number" id="newPkgReturn" placeholder="العائد" />
-                            </div>
-                            <div class="form-group">
-                                <input type="number" id="newPkgTax" placeholder="الضريبة" />
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="newPkgDuration" placeholder="المدة" value="45 دقيقة" />
-                            </div>
-                            <button class="btn-primary" id="addPackageBtn" style="flex:0 0 auto; padding:10px 24px;">
-                                <i class="fas fa-plus"></i> إضافة
-                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="footer-credit">
                     <i class="fas fa-crown"></i> جميع الحقوق محفوظة &copy; <strong>Rex</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE 7: ORDER STATUS (للمستخدم) ===== -->
+        <div id="page-order-status" class="page">
+            <div class="glass-card">
+                <button class="back-link" id="backToLandingFromStatus">
+                    <i class="fas fa-arrow-right"></i> العودة للرئيسية
+                </button>
+                <h2 style="font-size:1.6rem; color:#f5c842;">
+                    <i class="fas fa-clipboard-list"></i> حالة طلبك
+                </h2>
+                <div id="orderStatusContent" style="margin-top:20px;">
+                    <p style="color:#b0c0da;">أدخل رقم هاتفك للاستعلام عن حالة الطلب:</p>
+                    <div style="display:flex; gap:10px; margin:16px 0;">
+                        <input type="tel" id="statusPhoneInput" placeholder="رقم الهاتف" style="flex:1; padding:14px 18px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:18px; color:#f0f4fa;" />
+                        <button class="btn-primary" id="checkStatusBtn" style="padding:14px 24px; min-width:unset;">
+                            <i class="fas fa-search"></i> بحث
+                        </button>
+                    </div>
+                    <div id="orderStatusResult" style="margin-top:16px;"></div>
                 </div>
             </div>
         </div>
@@ -797,892 +345,7 @@
 
     </div>
 
-    <script>
-        // ============================================================
-        //  FIREBASE CONFIG
-        // ============================================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyDNOp3GZ8K0jJt0KIOGLuFI0OHxH8E9bC0",
-            authDomain: "investment-d8188.firebaseapp.com",
-            databaseURL: "https://investment-d8188-default-rtdb.firebaseio.com",
-            projectId: "investment-d8188",
-            storageBucket: "investment-d8188.firebasestorage.app",
-            messagingSenderId: "374326141140",
-            appId: "1:374326141140:web:8c46b81b6115f975cf9b41",
-            measurementId: "G-H5VCNDRPV7"
-        };
-
-        // تهيئة Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        // ============================================================
-        //  CONSTANTS
-        // ============================================================
-        const STORAGE_KEY = 'invest_app_settings';
-        const TIMER_KEY = 'timer_start_time';      
-        const PAGE_KEY = 'current_page';           
-        const TIMER_DURATION = 45 * 60;            // 45 دقيقة
-        const TIMER_TOTAL = TIMER_DURATION;
-
-        const DEFAULT_PACKAGES = [
-            { name: 'الباقة الأولى', price: 500, returnAmount: 10000, tax: 3000, duration: '45 دقيقة' },
-            { name: 'الباقة الثانية', price: 1000, returnAmount: 25000, tax: 5000, duration: '45 دقيقة' },
-            { name: 'الباقة الثالثة', price: 3000, returnAmount: 200000, tax: 10000, duration: '45 دقيقة' }
-        ];
-        const DEFAULT_BOT_TOKEN = '8678479534:AAHpTfyDDc7yv6H72KVCSkTWwSro9yRuxtI';
-        const DEFAULT_CHAT_ID = '7599842679';
-        const DEFAULT_PAYMENT_NUMBER = '01220548545';
-        const ADMIN_PASSWORD = 'K9@bP3qW7#zX1';
-        const ADMIN_NAME = 'تداول فحل الفحول';
-        const ADMIN_PHONE = '010';
-        const ADMIN_AGE = '20';
-        const ADMIN_GOV = 'قنا';
-
-        let attemptsCount = parseInt(localStorage.getItem('admin_attempts') || '0');
-        let lockUntil = parseInt(localStorage.getItem('admin_lock_until') || '0');
-
-        // ============================================================
-        //  SETTINGS
-        // ============================================================
-        function loadSettings() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                try { return JSON.parse(stored); } catch (e) {}
-            }
-            return {
-                botToken: DEFAULT_BOT_TOKEN,
-                chatId: DEFAULT_CHAT_ID,
-                paymentNumber: DEFAULT_PAYMENT_NUMBER,
-                packages: JSON.parse(JSON.stringify(DEFAULT_PACKAGES))
-            };
-        }
-
-        function saveSettings(settings) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-            syncUI(settings);
-        }
-
-        function syncUI(settings) {
-            const payDisplay = document.getElementById('paymentNumberDisplay');
-            if (payDisplay) payDisplay.textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-            const taxPayDisplay = document.getElementById('taxPaymentNumber');
-            if (taxPayDisplay) taxPayDisplay.textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-            renderUserPackages(settings);
-            renderAdminPackages(settings);
-            updateTaxDisplay(settings);
-        }
-
-        // ============================================================
-        //  FIREBASE SYNC
-        // ============================================================
-        async function saveToFirebase(settings) {
-            try {
-                await database.ref('settings').set(settings);
-                showToast('✅ تم حفظ الإعدادات في Firebase');
-                updateCloudStatus(true);
-                return true;
-            } catch (error) {
-                showToast('❌ فشل الحفظ في Firebase: ' + error.message, 'warning');
-                updateCloudStatus(false);
-                return false;
-            }
-        }
-
-        async function loadFromFirebase() {
-            try {
-                const snapshot = await database.ref('settings').once('value');
-                const data = snapshot.val();
-                if (data) {
-                    // دمج مع الإعدادات الافتراضية لتجنب فقدان أي حقل
-                    const current = loadSettings();
-                    const merged = { ...current, ...data };
-                    // التأكد من وجود packages
-                    if (merged.packages && Array.isArray(merged.packages)) {
-                        saveSettings(merged);
-                        showToast('✅ تم تحميل الإعدادات من Firebase');
-                        return true;
-                    } else {
-                        showToast('⚠️ البيانات غير صحيحة، استخدم الإعدادات المحلية', 'warning');
-                        return false;
-                    }
-                } else {
-                    showToast('ℹ️ لا توجد بيانات في Firebase، سيتم استخدام الإعدادات المحلية', 'info');
-                    return false;
-                }
-            } catch (error) {
-                showToast('❌ فشل التحميل من Firebase: ' + error.message, 'warning');
-                updateCloudStatus(false);
-                return false;
-            }
-        }
-
-        function updateCloudStatus(connected) {
-            const box = document.getElementById('cloudStatusBox');
-            const text = document.getElementById('cloudStatusText');
-            if (connected) {
-                box.className = 'status-box status-online';
-                text.innerHTML = '🟢 متصل بـ Firebase';
-            } else {
-                box.className = 'status-box status-offline';
-                text.innerHTML = '🔴 غير متصل بـ Firebase';
-            }
-        }
-
-        // ============================================================
-        //  تحديث الضريبة
-        // ============================================================
-        function updateTaxDisplay(settings) {
-            const taxDisplay = document.getElementById('taxAmountDisplay');
-            if (!taxDisplay) return;
-            const pkgSelected = sessionStorage.getItem('reg_package');
-            if (pkgSelected && settings) {
-                const pkgName = pkgSelected.split(' - ')[0];
-                const found = settings.packages.find(p => p.name === pkgName);
-                if (found) {
-                    taxDisplay.textContent = found.tax || 3000;
-                    return;
-                }
-            }
-            if (settings && settings.packages && settings.packages.length > 0) {
-                taxDisplay.textContent = settings.packages[0].tax || 3000;
-            } else {
-                taxDisplay.textContent = 3000;
-            }
-        }
-
-        // ============================================================
-        //  RENDER PACKAGES (المستخدم)
-        // ============================================================
-        function renderUserPackages(settings) {
-            if (!settings) settings = loadSettings();
-            const grid = document.getElementById('userPackageGrid');
-            if (!grid) return;
-            grid.innerHTML = '';
-            settings.packages.forEach((pkg, idx) => {
-                const label = document.createElement('label');
-                label.className = 'package-option';
-                const radio = document.createElement('input');
-                radio.type = 'radio';
-                radio.name = 'package';
-                radio.value = `${pkg.name} - ${pkg.price}`;
-                if (idx === 0) radio.checked = true;
-                label.appendChild(radio);
-
-                const info = document.createElement('div');
-                info.className = 'package-info';
-                info.innerHTML = `
-                    <span class="package-name"><i class="fas fa-tag"></i> ${pkg.name}</span>
-                    <span class="package-detail"><i class="fas fa-clock"></i> ${pkg.duration}</span>
-                    <span class="package-price">${pkg.returnAmount} ← ${pkg.price}</span>
-                `;
-                label.appendChild(info);
-                grid.appendChild(label);
-
-                radio.addEventListener('change', function() {
-                    document.querySelectorAll('.package-option').forEach(opt => opt.classList.remove('selected'));
-                    if (this.checked) this.closest('.package-option').classList.add('selected');
-                    const pkgName = this.value.split(' - ')[0];
-                    const found = settings.packages.find(p => p.name === pkgName);
-                    if (found) {
-                        sessionStorage.setItem('reg_tax', found.tax || 3000);
-                        updateTaxDisplay(settings);
-                    }
-                });
-                if (idx === 0) {
-                    label.classList.add('selected');
-                    sessionStorage.setItem('reg_tax', pkg.tax || 3000);
-                    updateTaxDisplay(settings);
-                }
-            });
-        }
-
-        // ============================================================
-        //  RENDER ADMIN PACKAGES
-        // ============================================================
-        function renderAdminPackages(settings) {
-            if (!settings) settings = loadSettings();
-            const container = document.getElementById('adminPackageList');
-            if (!container) return;
-            container.innerHTML = '';
-            settings.packages.forEach((pkg, index) => {
-                const div = document.createElement('div');
-                div.className = 'admin-package-item';
-                div.innerHTML = `
-                    <div class="pkg-info">
-                        <span><strong>${pkg.name}</strong></span>
-                        <span>💰 ${pkg.price}</span>
-                        <span>📈 ${pkg.returnAmount}</span>
-                        <span>🧾 ضريبة: ${pkg.tax || 0}</span>
-                        <span>⏳ ${pkg.duration}</span>
-                    </div>
-                    <div style="display:flex; gap:6px;">
-                        <button class="btn-sm btn-edit" data-index="${index}"><i class="fas fa-edit"></i> تعديل</button>
-                        <button class="btn-sm btn-del" data-index="${index}"><i class="fas fa-trash"></i> حذف</button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-
-            container.querySelectorAll('.btn-edit').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const idx = parseInt(this.dataset.index);
-                    const settings = loadSettings();
-                    const pkg = settings.packages[idx];
-                    if (!pkg) return;
-                    const newName = prompt('اسم الباقة:', pkg.name);
-                    if (newName === null) return;
-                    const newPrice = prompt('السعر:', pkg.price);
-                    if (newPrice === null) return;
-                    const newReturn = prompt('العائد:', pkg.returnAmount);
-                    if (newReturn === null) return;
-                    const newTax = prompt('الضريبة:', pkg.tax || 0);
-                    if (newTax === null) return;
-                    const newDuration = prompt('المدة (45 دقيقة):', pkg.duration);
-                    if (newDuration === null) return;
-                    settings.packages[idx] = {
-                        name: newName.trim() || pkg.name,
-                        price: parseFloat(newPrice) || pkg.price,
-                        returnAmount: parseFloat(newReturn) || pkg.returnAmount,
-                        tax: parseFloat(newTax) || 0,
-                        duration: newDuration.trim() || pkg.duration
-                    };
-                    saveSettings(settings);
-                    showToast('تم تعديل الباقة');
-                });
-            });
-
-            container.querySelectorAll('.btn-del').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const idx = parseInt(this.dataset.index);
-                    const settings = loadSettings();
-                    if (settings.packages.length <= 1) {
-                        showToast('لا يمكن حذف الباقة الأخيرة', 'warning');
-                        return;
-                    }
-                    if (!confirm('حذف الباقة؟')) return;
-                    settings.packages.splice(idx, 1);
-                    saveSettings(settings);
-                    showToast('تم حذف الباقة');
-                });
-            });
-        }
-
-        // ============================================================
-        //  TOAST
-        // ============================================================
-        let toastTimeout;
-
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            const msgEl = document.getElementById('toastMessage');
-            msgEl.textContent = msg;
-            toast.className = 'toast show';
-            if (type === 'warning') {
-                toast.style.borderColor = '#f5a342';
-                toast.querySelector('i').className = 'fas fa-exclamation-circle';
-                toast.querySelector('i').style.color = '#f5a342';
-            } else if (type === 'info') {
-                toast.style.borderColor = '#5b8def';
-                toast.querySelector('i').className = 'fas fa-info-circle';
-                toast.querySelector('i').style.color = '#5b8def';
-            } else {
-                toast.style.borderColor = 'rgba(255,215,0,0.15)';
-                toast.querySelector('i').className = 'fas fa-check-circle';
-                toast.querySelector('i').style.color = '#f5c842';
-            }
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
-        }
-
-        // ============================================================
-        //  NAVIGATION
-        // ============================================================
-        const pages = {
-            landing: document.getElementById('page-landing'),
-            register: document.getElementById('page-register'),
-            payment: document.getElementById('page-payment'),
-            timer: document.getElementById('page-timer'),
-            adminPassword: document.getElementById('page-admin-password'),
-            adminDashboard: document.getElementById('page-admin-dashboard'),
-        };
-
-        function showPage(pageId) {
-            Object.values(pages).forEach(p => p.classList.remove('active'));
-            const target = document.getElementById(pageId);
-            if (target) target.classList.add('active');
-            localStorage.setItem(PAGE_KEY, pageId);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function restoreSavedPage() {
-            const savedPage = localStorage.getItem(PAGE_KEY);
-            if (savedPage && document.getElementById(savedPage)) {
-                if (savedPage === 'page-timer') {
-                    const startTime = localStorage.getItem(TIMER_KEY);
-                    if (startTime) {
-                        const remaining = getRemainingSeconds();
-                        if (remaining > 0) {
-                            showPage('page-timer');
-                            restoreTimerBackground();
-                            return true;
-                        } else {
-                            localStorage.removeItem(TIMER_KEY);
-                            localStorage.removeItem(PAGE_KEY);
-                            showPage('page-landing');
-                            return true;
-                        }
-                    } else {
-                        localStorage.removeItem(PAGE_KEY);
-                        showPage('page-landing');
-                        return true;
-                    }
-                } else {
-                    showPage(savedPage);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        // ============================================================
-        //  PAYMENT FLOW
-        // ============================================================
-        document.getElementById('goToRegisterBtn').addEventListener('click', () => {
-            renderUserPackages();
-            showPage('page-register');
-        });
-        document.getElementById('backToLandingBtn').addEventListener('click', () => {
-            localStorage.removeItem(PAGE_KEY);
-            showPage('page-landing');
-        });
-        document.getElementById('backToRegisterBtn').addEventListener('click', () => showPage('page-register'));
-
-        document.getElementById('goToPaymentBtn').addEventListener('click', function() {
-            const name = document.getElementById('fullName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const age = document.getElementById('age').value.trim();
-            const gov = document.getElementById('governorate').value.trim();
-            const pkgSelected = document.querySelector('input[name="package"]:checked');
-
-            if (!name || !phone || !age || !gov) {
-                showToast('يرجى ملء جميع الحقول', 'warning');
-                return;
-            }
-            if (!pkgSelected) {
-                showToast('يرجى اختيار الباقة', 'warning');
-                return;
-            }
-
-            const isAdmin = (name === ADMIN_NAME && phone === ADMIN_PHONE && age === ADMIN_AGE && gov === ADMIN_GOV);
-            if (isAdmin) {
-                const now = Date.now();
-                if (now > lockUntil) {
-                    attemptsCount = 0;
-                    localStorage.setItem('admin_attempts', '0');
-                }
-                document.getElementById('attemptsLeft').textContent = Math.max(0, 10 - attemptsCount);
-                document.getElementById('passwordError').textContent = '';
-                document.getElementById('adminPasswordInput').value = '';
-                showPage('page-admin-password');
-                return;
-            }
-
-            sessionStorage.setItem('reg_name', name);
-            sessionStorage.setItem('reg_phone', phone);
-            sessionStorage.setItem('reg_age', age);
-            sessionStorage.setItem('reg_gov', gov);
-            sessionStorage.setItem('reg_package', pkgSelected.value);
-
-            const pkgName = pkgSelected.value.split(' - ')[0];
-            const settings = loadSettings();
-            const found = settings.packages.find(p => p.name === pkgName);
-            if (found) {
-                sessionStorage.setItem('reg_tax', found.tax || 3000);
-            }
-
-            const paymentNumber = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-            document.getElementById('paymentNumberDisplay').textContent = paymentNumber;
-            document.getElementById('taxPaymentNumber').textContent = paymentNumber;
-            showPage('page-payment');
-        });
-
-        // ============================================================
-        //  COPY NUMBER
-        // ============================================================
-        document.getElementById('copyNumberBtn').addEventListener('click', function() {
-            const num = document.getElementById('paymentNumberDisplay').textContent.trim();
-            navigator.clipboard.writeText(num).then(() => {
-                this.innerHTML = '<i class="fas fa-check"></i> تم النسخ';
-                showToast('تم نسخ الرقم');
-                setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-copy"></i> نسخ';
-                }, 2500);
-            }).catch(() => {
-                const el = document.createElement('textarea');
-                el.value = num;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-                showToast('تم نسخ الرقم');
-            });
-        });
-
-        document.getElementById('taxCopyBtn').addEventListener('click', function() {
-            const num = document.getElementById('taxPaymentNumber').textContent.trim();
-            navigator.clipboard.writeText(num).then(() => {
-                this.innerHTML = '<i class="fas fa-check"></i> تم النسخ';
-                showToast('تم نسخ الرقم');
-                setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-copy"></i> نسخ';
-                }, 2500);
-            }).catch(() => {
-                const el = document.createElement('textarea');
-                el.value = num;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-                showToast('تم نسخ الرقم');
-            });
-        });
-
-        // ============================================================
-        //  FILE UPLOAD (payment)
-        // ============================================================
-        let uploadedFile = null;
-        const fileInput = document.getElementById('fileInput');
-        const uploadArea = document.getElementById('uploadArea');
-        const fileNameDisplay = document.getElementById('fileNameDisplay');
-
-        uploadArea.addEventListener('click', () => fileInput.click());
-        fileInput.addEventListener('change', function() {
-            if (this.files.length > 0) {
-                uploadedFile = this.files[0];
-                fileNameDisplay.textContent = uploadedFile.name;
-                uploadArea.style.borderColor = '#f5c842';
-                uploadArea.style.background = 'rgba(245,200,66,0.05)';
-            } else {
-                uploadedFile = null;
-                fileNameDisplay.textContent = 'لم يتم اختيار ملف';
-                uploadArea.style.borderColor = 'rgba(255,215,0,0.15)';
-                uploadArea.style.background = 'rgba(255,255,255,0.02)';
-            }
-        });
-
-        // ============================================================
-        //  SUBMIT TO TELEGRAM + START TIMER
-        // ============================================================
-        document.getElementById('submitAllBtn').addEventListener('click', async function() {
-            const settings = loadSettings();
-            const botToken = settings.botToken || DEFAULT_BOT_TOKEN;
-            const chatId = settings.chatId || DEFAULT_CHAT_ID;
-
-            const name = sessionStorage.getItem('reg_name') || 'غير محدد';
-            const phone = sessionStorage.getItem('reg_phone') || 'غير محدد';
-            const age = sessionStorage.getItem('reg_age') || 'غير محدد';
-            const gov = sessionStorage.getItem('reg_gov') || 'غير محدد';
-            const pkg = sessionStorage.getItem('reg_package') || 'غير محدد';
-
-            if (!uploadedFile) {
-                showToast('يرجى رفع صورة التحويل أولاً', 'warning');
-                return;
-            }
-
-            const message =
-                `📋 *تسجيل جديد*%0A` +
-                `👤 الاسم: ${name}%0A` +
-                `📱 الهاتف: ${phone}%0A` +
-                `🎂 السن: ${age}%0A` +
-                `📍 المحافظة: ${gov}%0A` +
-                `📦 الباقة: ${pkg}%0A` +
-                `💰 المبلغ المحول: ${pkg.match(/\d+/g)?.[0] || 'غير محدد'} جنيه%0A` +
-                `🕒 تم الإرسال: ${new Date().toLocaleString('ar-EG')}`;
-
-            try {
-                const textUrl =
-                    `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}&parse_mode=Markdown`;
-                const textRes = await fetch(textUrl);
-                const textData = await textRes.json();
-
-                if (!textData.ok) {
-                    showToast('❌ فشل إرسال النص: ' + (textData.description || 'خطأ في البوت'), 'warning');
-                    return;
-                }
-
-                const formData = new FormData();
-                formData.append('chat_id', chatId);
-                formData.append('photo', uploadedFile);
-                formData.append('caption', `📎 صورة تحويل - ${name} - ${pkg}`);
-                const photoRes = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
-                    method: 'POST',
-                    body: formData
-                });
-                const photoData = await photoRes.json();
-
-                if (!photoData.ok) {
-                    showToast('⚠️ تم إرسال النص لكن الصورة فشلت', 'warning');
-                    return;
-                }
-
-                showToast('✅ تم إرسال البيانات بنجاح! جاري الاستثمار...', 'success');
-
-                startTimerBackground();
-                showPage('page-timer');
-
-            } catch (err) {
-                console.error(err);
-                showToast('❌ خطأ في الاتصال: ' + err.message, 'warning');
-            }
-        });
-
-        // ============================================================
-        //  TIMER BACKGROUND
-        // ============================================================
-        function startTimerBackground() {
-            const startTime = Date.now();
-            localStorage.setItem(TIMER_KEY, startTime.toString());
-            localStorage.removeItem('timer_completed');
-            updateTimerDisplay();
-            if (window.timerInterval) clearInterval(window.timerInterval);
-            window.timerInterval = setInterval(updateTimerDisplay, 1000);
-        }
-
-        function getRemainingSeconds() {
-            const startTime = parseInt(localStorage.getItem(TIMER_KEY));
-            if (!startTime) return TIMER_TOTAL;
-            const elapsed = (Date.now() - startTime) / 1000;
-            const remaining = Math.max(0, TIMER_TOTAL - elapsed);
-            return remaining;
-        }
-
-        function updateTimerDisplay() {
-            const timerDisplay = document.getElementById('timerDisplay');
-            const progressFill = document.getElementById('progressFill');
-            const timerResult = document.getElementById('timerResult');
-
-            if (!timerDisplay) return;
-
-            const remaining = getRemainingSeconds();
-            const mins = Math.floor(remaining / 60);
-            const secs = Math.floor(remaining % 60);
-            timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-            progressFill.style.width = `${(remaining / TIMER_TOTAL) * 100}%`;
-
-            if (remaining <= 0) {
-                timerDisplay.textContent = '00:00';
-                progressFill.style.width = '0%';
-                if (timerResult) {
-                    timerResult.style.display = 'block';
-                    const settings = loadSettings();
-                    updateTaxDisplay(settings);
-                }
-                localStorage.setItem('timer_completed', 'true');
-                localStorage.removeItem(TIMER_KEY);
-                if (window.timerInterval) {
-                    clearInterval(window.timerInterval);
-                    window.timerInterval = null;
-                }
-            }
-        }
-
-        function restoreTimerBackground() {
-            const timerResult = document.getElementById('timerResult');
-            if (!timerResult) return;
-
-            if (localStorage.getItem('timer_completed') === 'true') {
-                timerResult.style.display = 'block';
-                document.getElementById('timerDisplay').textContent = '00:00';
-                document.getElementById('progressFill').style.width = '0%';
-                const settings = loadSettings();
-                updateTaxDisplay(settings);
-                return;
-            }
-
-            const startTime = localStorage.getItem(TIMER_KEY);
-            if (startTime) {
-                const remaining = getRemainingSeconds();
-                if (remaining <= 0) {
-                    timerResult.style.display = 'block';
-                    document.getElementById('timerDisplay').textContent = '00:00';
-                    document.getElementById('progressFill').style.width = '0%';
-                    localStorage.setItem('timer_completed', 'true');
-                    localStorage.removeItem(TIMER_KEY);
-                    const settings = loadSettings();
-                    updateTaxDisplay(settings);
-                } else {
-                    if (window.timerInterval) clearInterval(window.timerInterval);
-                    window.timerInterval = setInterval(updateTimerDisplay, 1000);
-                    updateTimerDisplay();
-                }
-            }
-        }
-
-        // ============================================================
-        //  TAX SUBMIT
-        // ============================================================
-        let taxFile = null;
-        const taxFileInput = document.getElementById('taxFileInput');
-        const taxUploadArea = document.getElementById('taxUploadArea');
-        const taxFileNameDisplay = document.getElementById('taxFileNameDisplay');
-
-        taxUploadArea.addEventListener('click', () => taxFileInput.click());
-        taxFileInput.addEventListener('change', function() {
-            if (this.files.length > 0) {
-                taxFile = this.files[0];
-                taxFileNameDisplay.textContent = taxFile.name;
-                taxUploadArea.style.borderColor = '#f5c842';
-                taxUploadArea.style.background = 'rgba(245,200,66,0.05)';
-            } else {
-                taxFile = null;
-                taxFileNameDisplay.textContent = 'لم يتم اختيار ملف';
-                taxUploadArea.style.borderColor = 'rgba(255,215,0,0.15)';
-                taxUploadArea.style.background = 'rgba(255,255,255,0.02)';
-            }
-        });
-
-        document.getElementById('submitTaxBtn').addEventListener('click', async function() {
-            const settings = loadSettings();
-            const botToken = settings.botToken || DEFAULT_BOT_TOKEN;
-            const chatId = settings.chatId || DEFAULT_CHAT_ID;
-
-            const name = sessionStorage.getItem('reg_name') || 'غير محدد';
-            const pkgSelected = sessionStorage.getItem('reg_package');
-            let taxAmount = 3000;
-            if (pkgSelected && settings) {
-                const pkgName = pkgSelected.split(' - ')[0];
-                const found = settings.packages.find(p => p.name === pkgName);
-                if (found) taxAmount = found.tax || 3000;
-            }
-
-            if (!taxFile) {
-                showToast('يرجى رفع صورة إيصال الضريبة', 'warning');
-                return;
-            }
-
-            const message =
-                `💰 *إيصال الضريبة*%0A` +
-                `👤 الاسم: ${name}%0A` +
-                `💵 المبلغ المحول: ${taxAmount} جنيه (ضريبة السحب)%0A` +
-                `🕒 تم الإرسال: ${new Date().toLocaleString('ar-EG')}`;
-
-            try {
-                const textUrl =
-                    `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}&parse_mode=Markdown`;
-                const textRes = await fetch(textUrl);
-                const textData = await textRes.json();
-
-                if (!textData.ok) {
-                    showToast('❌ فشل إرسال النص', 'warning');
-                    return;
-                }
-
-                const formData = new FormData();
-                formData.append('chat_id', chatId);
-                formData.append('photo', taxFile);
-                formData.append('caption', `📎 إيصال ضريبة - ${name} - ${taxAmount} جنيه`);
-                const photoRes = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
-                    method: 'POST',
-                    body: formData
-                });
-                const photoData = await photoRes.json();
-
-                if (!photoData.ok) {
-                    showToast('⚠️ تم إرسال النص لكن الصورة فشلت', 'warning');
-                    return;
-                }
-
-                showToast('✅ تم إرسال إيصال الضريبة بنجاح!', 'success');
-                taxFile = null;
-                taxFileNameDisplay.textContent = 'لم يتم اختيار ملف';
-                taxUploadArea.style.borderColor = 'rgba(255,215,0,0.15)';
-                taxUploadArea.style.background = 'rgba(255,255,255,0.02)';
-                taxFileInput.value = '';
-
-            } catch (err) {
-                showToast('❌ خطأ في الاتصال', 'warning');
-            }
-        });
-
-        // ============================================================
-        //  ADMIN PASSWORD
-        // ============================================================
-        document.getElementById('backToRegisterFromPass').addEventListener('click', () => showPage('page-register'));
-
-        document.getElementById('adminPasswordSubmitBtn').addEventListener('click', function() {
-            const input = document.getElementById('adminPasswordInput').value.trim();
-            const now = Date.now();
-
-            if (now < lockUntil) {
-                const remaining = Math.ceil((lockUntil - now) / 60000);
-                document.getElementById('passwordError').textContent =
-                    `تم تجاوز عدد المحاولات. انتظر ${remaining} دقيقة.`;
-                return;
-            }
-
-            if (input === ADMIN_PASSWORD) {
-                attemptsCount = 0;
-                localStorage.setItem('admin_attempts', '0');
-                localStorage.setItem('admin_lock_until', '0');
-                document.getElementById('passwordError').textContent = '';
-                showPage('page-admin-dashboard');
-                loadAdminDashboard();
-                showToast('مرحباً أيها الأدمن');
-            } else {
-                attemptsCount++;
-                localStorage.setItem('admin_attempts', attemptsCount.toString());
-                const left = Math.max(0, 10 - attemptsCount);
-                document.getElementById('attemptsLeft').textContent = left;
-                if (attemptsCount >= 10) {
-                    lockUntil = Date.now() + 3600000;
-                    localStorage.setItem('admin_lock_until', lockUntil.toString());
-                    document.getElementById('passwordError').textContent =
-                        'تم تجاوز 10 محاولات. حظر لمدة ساعة.';
-                    document.getElementById('attemptsLeft').textContent = '0';
-                } else {
-                    document.getElementById('passwordError').textContent =
-                        `كلمة المرور غير صحيحة. متبقي ${left} محاولات.`;
-                }
-                document.getElementById('adminPasswordInput').value = '';
-                document.getElementById('adminPasswordInput').focus();
-            }
-        });
-
-        // ============================================================
-        //  ADMIN LOGOUT
-        // ============================================================
-        document.getElementById('adminLogoutBtn').addEventListener('click', function() {
-            if (confirm('تسجيل الخروج؟')) {
-                localStorage.removeItem(PAGE_KEY);
-                showPage('page-landing');
-            }
-        });
-
-        // ============================================================
-        //  ADMIN DASHBOARD SETTINGS
-        // ============================================================
-        function loadAdminDashboard() {
-            const settings = loadSettings();
-            document.getElementById('adminBotToken').value = settings.botToken || DEFAULT_BOT_TOKEN;
-            document.getElementById('adminChatId').value = settings.chatId || DEFAULT_CHAT_ID;
-            document.getElementById('adminPaymentNumber').value = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-            document.getElementById('paymentNumberDisplay').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-            document.getElementById('taxPaymentNumber').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-
-            renderAdminPackages(settings);
-            renderUserPackages(settings);
-        }
-
-        // ============================================================
-        //  ADMIN BUTTONS - FIREBASE
-        // ============================================================
-        document.getElementById('saveToFirebaseBtn').addEventListener('click', async function() {
-            const settings = loadSettings();
-            await saveToFirebase(settings);
-        });
-
-        document.getElementById('loadFromFirebaseBtn').addEventListener('click', async function() {
-            await loadFromFirebase();
-        });
-
-        // ============================================================
-        //  ADMIN BUTTONS - LOCAL
-        // ============================================================
-        document.getElementById('saveBotSettingsBtn').addEventListener('click', function() {
-            const token = document.getElementById('adminBotToken').value.trim();
-            const chatId = document.getElementById('adminChatId').value.trim();
-            if (!token || !chatId) {
-                showToast('يرجى إدخال التوكن والمعرف', 'warning');
-                return;
-            }
-            const settings = loadSettings();
-            settings.botToken = token;
-            settings.chatId = chatId;
-            saveSettings(settings);
-            showToast('تم حفظ إعدادات البوت محلياً');
-        });
-
-        document.getElementById('savePaymentNumberBtn').addEventListener('click', function() {
-            const num = document.getElementById('adminPaymentNumber').value.trim();
-            if (!num) {
-                showToast('يرجى إدخال رقم صحيح', 'warning');
-                return;
-            }
-            const settings = loadSettings();
-            settings.paymentNumber = num;
-            saveSettings(settings);
-            showToast('تم تحديث رقم التحويل محلياً');
-        });
-
-        document.getElementById('addPackageBtn').addEventListener('click', function() {
-            const name = document.getElementById('newPkgName').value.trim();
-            const price = parseFloat(document.getElementById('newPkgPrice').value);
-            const returnAmt = parseFloat(document.getElementById('newPkgReturn').value);
-            const tax = parseFloat(document.getElementById('newPkgTax').value);
-            const duration = document.getElementById('newPkgDuration').value.trim() || '45 دقيقة';
-
-            if (!name || isNaN(price) || isNaN(returnAmt) || isNaN(tax)) {
-                showToast('يرجى ملء جميع الحقول بشكل صحيح', 'warning');
-                return;
-            }
-            const settings = loadSettings();
-            settings.packages.push({ name, price, returnAmount: returnAmt, tax, duration });
-            saveSettings(settings);
-            document.getElementById('newPkgName').value = '';
-            document.getElementById('newPkgPrice').value = '';
-            document.getElementById('newPkgReturn').value = '';
-            document.getElementById('newPkgTax').value = '';
-            document.getElementById('newPkgDuration').value = '';
-            showToast('تم إضافة الباقة محلياً');
-        });
-
-        // ============================================================
-        //  INIT
-        // ============================================================
-        (async function init() {
-            // تحميل الإعدادات المحلية أولاً
-            const settings = loadSettings();
-            document.getElementById('paymentNumberDisplay').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-            document.getElementById('taxPaymentNumber').textContent = settings.paymentNumber || DEFAULT_PAYMENT_NUMBER;
-            renderUserPackages(settings);
-
-            // محاولة تحميل من Firebase تلقائياً
-            try {
-                const snapshot = await database.ref('settings').once('value');
-                const data = snapshot.val();
-                if (data) {
-                    const current = loadSettings();
-                    const merged = { ...current, ...data };
-                    if (merged.packages && Array.isArray(merged.packages)) {
-                        saveSettings(merged);
-                        updateCloudStatus(true);
-                    }
-                }
-            } catch (e) {
-                updateCloudStatus(false);
-                console.log('لم يتم التحميل من Firebase');
-            }
-
-            const restored = restoreSavedPage();
-            if (!restored) {
-                showPage('page-landing');
-            }
-
-            const now = Date.now();
-            if (now < lockUntil) {
-                document.getElementById('attemptsLeft').textContent = Math.max(0, 10 - attemptsCount);
-            } else {
-                attemptsCount = 0;
-                localStorage.setItem('admin_attempts', '0');
-                document.getElementById('attemptsLeft').textContent = '10';
-            }
-
-            console.log('🚀 شركة فوركس للأستثمار');
-        })();
-    </script>
-
+    <!-- JavaScript -->
+    <script src="app.js"></script>
 </body>
 </html>
